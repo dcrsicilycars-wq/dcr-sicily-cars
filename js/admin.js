@@ -205,7 +205,7 @@ window.duplicateVehicle = async function(id) {
 window.previewVehicle = function(id) {
   const basePath = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? '../pages/vehicle-detail.html'
-    : 'pages/vehicle-detail.html'
+    : '/pages/vehicle-detail.html'
   window.open(basePath + '?id=' + id, '_blank')
 }
 
@@ -395,6 +395,8 @@ function openModal(message, onConfirm) {
   msgEl.textContent = message
   modal.style.display = 'flex'
   modalCallback = onConfirm
+  const confirmBtn = document.getElementById('modal-confirm')
+  if (confirmBtn) confirmBtn.textContent = i18n.t('admin.confirm_delete_btn')
 }
 
 function closeModal() {
@@ -473,7 +475,6 @@ window.viewMessage = async function(id) {
 <strong>${i18n.t('admin.message_date')}:</strong> ${m.date || '-'}<br><br>
 <strong>${i18n.t('admin.message_preview')}:</strong><br>${m.message || '-'}`
   openModal(content, function() { closeModal() })
-  document.getElementById('modal-confirm').textContent = i18n.t('admin.close')
 }
 
 window.deleteMessage = async function(id) {
@@ -657,6 +658,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     vehicle.registration = document.getElementById('v-registration')?.value.trim() || ''
     vehicle.warranty = document.getElementById('v-warranty')?.checked || false
 
+    const submitBtn = document.querySelector('#vehicle-form button[type="submit"]')
+    if (submitBtn) submitBtn.disabled = true
+
     uploadVehicleImages(vehicle).then(() => {
       return syncToServer(vehicle, editingId)
     }).then(() => {
@@ -667,6 +671,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       showView('dashboard')
     }).catch((err) => {
       showToast(err.message || i18n.t('contact.error'), 'error')
+    }).finally(() => {
+      if (submitBtn) submitBtn.disabled = false
     })
   })
 
