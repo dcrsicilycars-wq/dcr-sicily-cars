@@ -1,5 +1,5 @@
 function imgSrc(url) {
-  return url && url.match(/^(https?:|data:)/i) ? url : (BASE_PATH || '') + url
+  return url && url.match(/^(https?:|data:|\/)/i) ? url : (BASE_PATH || '') + url
 }
 
 var SPEC_ICONS = {
