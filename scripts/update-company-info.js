@@ -15,7 +15,7 @@ const companyData = {
   soldArchiveDays: 2,
   address: 'Via San Giuseppe La Rena, 94, 95121 Catania CT',
   phone: '+39 095 123 4567',
-  email: 'info@dcrsicilycars.it'
+  email: 'info@dcrsicilycars.com'
 };
 
 fs.writeFileSync(
