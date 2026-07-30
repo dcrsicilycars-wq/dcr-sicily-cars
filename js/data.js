@@ -1,24 +1,17 @@
 class VehicleData {
   constructor() {
     this.vehicles = [];
-    this.apiEndpoint = '/data/vehicles.json';
-    this.storageType = 'json'; // 'json' | 'supabase' | 'firebase'
+    this.apiEndpoint = '/api/vehicles';
   }
 
   async loadVehicles() {
-    const stored = localStorage.getItem('dcr-vehicles');
-    if (stored) {
-      try {
-        this.vehicles = JSON.parse(stored);
-        return this.vehicles;
-      } catch (e) {}
-    }
     try {
       const resp = await fetch(this.apiEndpoint);
-      const data = await resp.json();
-      if (!stored) {
-        this.vehicles = data;
-        localStorage.setItem('dcr-vehicles', JSON.stringify(data));
+      const json = await resp.json();
+      if (json.success && Array.isArray(json.vehicles)) {
+        this.vehicles = json.vehicles;
+      } else {
+        this.vehicles = [];
       }
       return this.vehicles;
     } catch (e) {

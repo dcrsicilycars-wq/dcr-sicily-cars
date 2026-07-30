@@ -24,5 +24,11 @@ export default defineConfig({
     port: 5500,
     strictPort: true,
     open: true,
+    proxy: {
+      '/api': {
+        target: 'https://dcr-sicily-cars.pages.dev',
+        changeOrigin: true,
+      }
+    }
   },
 })

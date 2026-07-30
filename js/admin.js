@@ -20,12 +20,6 @@ function debounce(fn, ms) {
   }
 }
 
-function getNextId() {
-  return vehicleData.vehicles.length > 0
-    ? Math.max(...vehicleData.vehicles.map(v => v.id)) + 1
-    : 1
-}
-
 function showView(view) {
   document.querySelectorAll('[id^="view-"]').forEach(el => el.style.display = 'none')
   document.querySelectorAll('[data-page]').forEach(el => el.classList.remove('active'))
@@ -161,27 +155,43 @@ window.editVehicle = function(id) {
   showView('add')
 }
 
-window.deleteVehicle = function(id) {
+window.deleteVehicle = async function(id) {
   openModal(
     i18n.t('admin.confirm_delete'),
-    function() {
-      vehicleData.vehicles = vehicleData.vehicles.filter(v => v.id !== id)
-      saveToStorage()
-      showToast(i18n.t('admin.deleted'), 'info')
-      refreshViews()
+    async function() {
+      try {
+        await fetch('/api/vehicles/' + id, {
+          method: 'DELETE',
+          headers: getAuthHeaders()
+        })
+        await vehicleData.loadVehicles(true)
+        showToast(i18n.t('admin.deleted'), 'info')
+        refreshViews()
+      } catch (e) {
+        showToast(i18n.t('contact.error'), 'error')
+      }
       closeModal()
     }
   )
 }
 
-window.duplicateVehicle = function(id) {
+window.duplicateVehicle = async function(id) {
   const v = vehicleData.getById(id)
   if (!v) return
-  const copy = { ...v, id: getNextId(), featured: false, badge: null }
-  vehicleData.vehicles.push(copy)
-  saveToStorage()
-  showToast(i18n.t('admin.duplicated'), 'success')
-  refreshViews()
+  const copy = { ...v, featured: false, badge: null }
+  delete copy.id
+  try {
+    await fetch('/api/vehicles', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+      body: JSON.stringify(copy)
+    })
+    await vehicleData.loadVehicles(true)
+    showToast(i18n.t('admin.duplicated'), 'success')
+    refreshViews()
+  } catch (e) {
+    showToast(i18n.t('contact.error'), 'error')
+  }
 }
 
 window.previewVehicle = function(id) {
@@ -308,16 +318,12 @@ function renderGalleryGrid() {
   })
 }
 
-function saveToStorage() {
-  localStorage.setItem('dcr-vehicles', JSON.stringify(vehicleData.vehicles))
-}
-
-function loadFromStorage() {
-  const stored = localStorage.getItem('dcr-vehicles')
-  if (stored) {
-    try {
-      vehicleData.vehicles = JSON.parse(stored)
-    } catch (e) {}
+async function syncToServer(vehicle, editingId) {
+  const headers = { 'Content-Type': 'application/json', ...getAuthHeaders() }
+  if (editingId) {
+    await fetch('/api/vehicles/' + editingId, { method: 'PUT', headers, body: JSON.stringify(vehicle) })
+  } else {
+    await fetch('/api/vehicles', { method: 'POST', headers, body: JSON.stringify(vehicle) })
   }
 }
 
@@ -576,10 +582,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       return
     }
 
-    const existing = editingId ? vehicleData.getById(editingId) : null
-    const vehicle = { ...(existing || {}) }
+    const vehicle = {}
 
-    vehicle.id = editingId || getNextId()
     vehicle.brand = document.getElementById('v-brand').value.trim()
     vehicle.model = document.getElementById('v-model').value.trim()
     vehicle.year = parseInt(document.getElementById('v-year').value)
@@ -597,33 +601,30 @@ document.addEventListener('DOMContentLoaded', async () => {
       en: document.getElementById('v-description-en').value.trim()
     }
 
-    // Extra fields
-    vehicle.color_ext = document.getElementById('v-color-ext')?.value.trim() || vehicle.color_ext || ''
-    vehicle.color_int = document.getElementById('v-color-int')?.value.trim() || vehicle.color_int || ''
+    vehicle.color_ext = document.getElementById('v-color-ext')?.value.trim() || ''
+    vehicle.color_int = document.getElementById('v-color-int')?.value.trim() || ''
     const doors = parseInt(document.getElementById('v-doors')?.value)
-    vehicle.doors = isNaN(doors) ? (vehicle.doors || '') : doors
+    vehicle.doors = isNaN(doors) ? '' : doors
     const cv = parseInt(document.getElementById('v-power-cv')?.value)
-    vehicle.power_cv = isNaN(cv) ? (vehicle.power_cv || '') : cv
+    vehicle.power_cv = isNaN(cv) ? '' : cv
     const kw = parseInt(document.getElementById('v-power-kw')?.value)
-    vehicle.power_kw = isNaN(kw) ? (vehicle.power_kw || '') : kw
+    vehicle.power_kw = isNaN(kw) ? '' : kw
     const co2 = parseInt(document.getElementById('v-co2')?.value)
-    vehicle.co2 = isNaN(co2) ? (vehicle.co2 || '') : co2
-    vehicle.euro_class = document.getElementById('v-euro-class')?.value || vehicle.euro_class || ''
-    vehicle.consumption = document.getElementById('v-consumption')?.value.trim() || vehicle.consumption || ''
-    vehicle.registration = document.getElementById('v-registration')?.value.trim() || vehicle.registration || ''
-    vehicle.warranty = document.getElementById('v-warranty')?.checked || vehicle.warranty || false
+    vehicle.co2 = isNaN(co2) ? '' : co2
+    vehicle.euro_class = document.getElementById('v-euro-class')?.value || ''
+    vehicle.consumption = document.getElementById('v-consumption')?.value.trim() || ''
+    vehicle.registration = document.getElementById('v-registration')?.value.trim() || ''
+    vehicle.warranty = document.getElementById('v-warranty')?.checked || false
 
-    if (editingId) {
-      const idx = vehicleData.vehicles.findIndex(v => v.id === editingId)
-      if (idx !== -1) vehicleData.vehicles[idx] = vehicle
-    } else {
-      vehicleData.vehicles.push(vehicle)
-    }
-
-    saveToStorage()
-    formDirty = false
-    showToast(i18n.t('admin.saved'), 'success')
-    showView('dashboard')
+    syncToServer(vehicle, editingId).then(() => {
+      return vehicleData.loadVehicles(true)
+    }).then(() => {
+      formDirty = false
+      showToast(i18n.t('admin.saved'), 'success')
+      showView('dashboard')
+    }).catch((err) => {
+      showToast(err.message || i18n.t('contact.error'), 'error')
+    })
   })
 
   // Main image upload (click and drag-and-drop)

@@ -1,1 +1,0 @@
-import{t as e}from"./i18n-DFsiEsgO.js";window.i18n=e,document.querySelectorAll(`.login-lang .lang-btn`).forEach(t=>{t.addEventListener(`click`,function(){document.querySelectorAll(`.login-lang .lang-btn`).forEach(e=>e.classList.remove(`active`)),this.classList.add(`active`),e.setLang(this.dataset.lang)})}),e.init().then(()=>e.applyLanguage());

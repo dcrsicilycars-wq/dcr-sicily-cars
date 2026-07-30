@@ -262,12 +262,21 @@
       this.vehicles = [];
     }
     VehicleData.prototype.loadVehicles = function() {
-      var stored = localStorage.getItem('dcr-vehicles');
-      if (stored) {
-        try { this.vehicles = JSON.parse(stored); return Promise.resolve(this.vehicles); } catch(e) {}
-      }
-      this.vehicles = VEHICLES_DATA;
-      return Promise.resolve(this.vehicles);
+      var self = this;
+      return fetch('/api/vehicles')
+        .then(function(r) { return r.json(); })
+        .then(function(j) {
+          if (j.success && Array.isArray(j.vehicles)) {
+            self.vehicles = j.vehicles;
+          } else {
+            self.vehicles = VEHICLES_DATA;
+          }
+          return self.vehicles;
+        })
+        .catch(function() {
+          self.vehicles = VEHICLES_DATA;
+          return self.vehicles;
+        });
     };
     VehicleData.prototype.getFeatured = function() {
       return this.vehicles.filter(function(v) { return v.featured; });

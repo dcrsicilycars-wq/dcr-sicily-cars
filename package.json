@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "deploy": "npm run build && wrangler pages deploy dist --branch production",
     "deploy:preview": "npm run build && wrangler pages deploy dist --branch preview",
-    "db:init": "wrangler d1 execute dcr-messages --file=./schema.sql"
+    "db:init": "wrangler d1 execute dcr-messages --file=./schema.sql",
+    "db:migrate": "wrangler d1 execute dcr-messages --file=./migrations/002_vehicles.sql"
   },
   "keywords": [
     "car-dealership",
