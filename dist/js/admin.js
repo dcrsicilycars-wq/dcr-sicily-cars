@@ -169,6 +169,7 @@ window.deleteVehicle = function(id) {
       saveToStorage()
       showToast(i18n.t('admin.deleted'), 'info')
       refreshViews()
+      closeModal()
     }
   )
 }
