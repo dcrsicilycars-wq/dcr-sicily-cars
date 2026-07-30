@@ -4,7 +4,7 @@
   "description": "DCR Sicily Cars - Car dealership website",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp -r data dist/data && cp -r js dist/js && cp -r admin/js dist/admin/js && cp -r admin/css dist/admin/css && cp dist/pages/404.html dist/404.html",
+    "build": "vite build && cp -r data dist/data && cp -r js dist/js && cp -r admin/js dist/admin/js && cp -r admin/css dist/admin/css && cp dist/pages/404.html dist/404.html && cp -r assets/images dist/assets/images && cp -r assets/icons dist/assets/icons",
     "preview": "vite preview",
     "deploy": "npm run build && wrangler pages deploy dist --branch production",
     "deploy:preview": "npm run build && wrangler pages deploy dist --branch preview",

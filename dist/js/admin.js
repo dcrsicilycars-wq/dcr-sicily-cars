@@ -327,6 +327,29 @@ async function syncToServer(vehicle, editingId) {
   }
 }
 
+async function uploadVehicleImages(vehicle) {
+  const uploadHeaders = { 'Content-Type': 'application/json', ...getAuthHeaders() }
+
+  if (vehicle.image && vehicle.image.startsWith('data:')) {
+    const res = await fetch('/api/upload', {
+      method: 'POST', headers: uploadHeaders,
+      body: JSON.stringify({ image: vehicle.image })
+    })
+    const json = await res.json()
+    if (json.success) vehicle.image = json.image
+  }
+
+  const hasNewGallery = vehicle.gallery && vehicle.gallery.some(u => u.startsWith('data:'))
+  if (hasNewGallery) {
+    const res = await fetch('/api/upload', {
+      method: 'POST', headers: uploadHeaders,
+      body: JSON.stringify({ gallery: vehicle.gallery })
+    })
+    const json = await res.json()
+    if (json.success && json.gallery) vehicle.gallery = json.gallery
+  }
+}
+
 function showToast(message, type = 'info') {
   const container = document.querySelector('.toast-container') || (() => {
     const div = document.createElement('div')
@@ -616,7 +639,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     vehicle.registration = document.getElementById('v-registration')?.value.trim() || ''
     vehicle.warranty = document.getElementById('v-warranty')?.checked || false
 
-    syncToServer(vehicle, editingId).then(() => {
+    uploadVehicleImages(vehicle).then(() => {
+      return syncToServer(vehicle, editingId)
+    }).then(() => {
       return vehicleData.loadVehicles(true)
     }).then(() => {
       formDirty = false
