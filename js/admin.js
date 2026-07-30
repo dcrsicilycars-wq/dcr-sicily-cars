@@ -166,7 +166,7 @@ window.deleteVehicle = async function(id) {
         })
         if (!res.ok) {
           const json = await res.json().catch(() => ({}))
-          throw new Error(json.error || 'Errore eliminazione')
+          throw new Error((json.error || 'Errore eliminazione') + ' (HTTP ' + res.status + ')')
         }
         await vehicleData.loadVehicles(true)
         showToast(i18n.t('admin.deleted'), 'info')
@@ -192,7 +192,7 @@ window.duplicateVehicle = async function(id) {
     })
     if (!res.ok) {
       const json = await res.json().catch(() => ({}))
-      throw new Error(json.error || 'Errore duplicazione')
+      throw new Error((json.error || 'Errore duplicazione') + ' (HTTP ' + res.status + ')')
     }
     await vehicleData.loadVehicles(true)
     showToast(i18n.t('admin.duplicated'), 'success')
@@ -333,7 +333,7 @@ async function syncToServer(vehicle, editingId) {
   const res = await fetch(url, { method, headers, body: JSON.stringify(vehicle) })
   if (!res.ok) {
     const json = await res.json().catch(() => ({}))
-    throw new Error(json.error || 'Errore salvataggio veicolo')
+    throw new Error((json.error || 'Errore salvataggio veicolo') + ' (HTTP ' + res.status + ')')
   }
 }
 
@@ -347,7 +347,7 @@ async function uploadVehicleImages(vehicle) {
     })
     if (!res.ok) {
       const json = await res.json().catch(() => ({}))
-      throw new Error(json.error || 'Errore upload immagine')
+      throw new Error((json.error || 'Errore upload immagine') + ' (HTTP ' + res.status + ')')
     }
     const json = await res.json()
     if (json.success) vehicle.image = json.image
@@ -361,7 +361,7 @@ async function uploadVehicleImages(vehicle) {
     })
     if (!res.ok) {
       const json = await res.json().catch(() => ({}))
-      throw new Error(json.error || 'Errore upload gallery')
+      throw new Error((json.error || 'Errore upload gallery') + ' (HTTP ' + res.status + ')')
     }
     const json = await res.json()
     if (json.success && json.gallery) vehicle.gallery = json.gallery
@@ -388,7 +388,7 @@ function showToast(message, type = 'info') {
 }
 
 /* ---- Modal ---- */
-function openModal(message, onConfirm) {
+function openModal(message, onConfirm, confirmText) {
   const modal = document.getElementById('confirm-modal')
   const msgEl = document.getElementById('modal-message')
   if (!modal || !msgEl) return
@@ -396,7 +396,7 @@ function openModal(message, onConfirm) {
   modal.style.display = 'flex'
   modalCallback = onConfirm
   const confirmBtn = document.getElementById('modal-confirm')
-  if (confirmBtn) confirmBtn.textContent = i18n.t('admin.confirm_delete_btn')
+  if (confirmBtn) confirmBtn.textContent = confirmText || i18n.t('admin.confirm_delete_btn')
 }
 
 function closeModal() {
@@ -474,7 +474,7 @@ window.viewMessage = async function(id) {
 <strong>${i18n.t('admin.message_subject')}:</strong> ${m.subject || '-'}<br>
 <strong>${i18n.t('admin.message_date')}:</strong> ${m.date || '-'}<br><br>
 <strong>${i18n.t('admin.message_preview')}:</strong><br>${m.message || '-'}`
-  openModal(content, function() { closeModal() })
+  openModal(content, function() { closeModal() }, i18n.t('admin.close'))
 }
 
 window.deleteMessage = async function(id) {
