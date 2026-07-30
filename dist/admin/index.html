@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0055FF">
+  <title>DCR Sicily Cars - Admin</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon-uNizSGTE.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    const _admin = localStorage.getItem('dcr-admin')
+    if (!_admin) { window.location.replace('login.html') }
+    else { try { const _a = JSON.parse(_admin); if (!_a.loggedIn) { window.location.replace('login.html') } } catch(_) { window.location.replace('login.html') } }
+  </script>
+  <script type="module" crossorigin src="/assets/admin-Cw8BIzEY.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/i18n-DFsiEsgO.js">
+  <link rel="stylesheet" crossorigin href="/assets/i18n-BEUKx7UF.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-logo">
+        <img src="/assets/logo-white-Bvafna8M.svg" alt="DCR Sicily Cars s.r.l.s">
+      </div>
+      <nav class="admin-sidebar-nav">
+        <a href="index.html" class="active" data-page="dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+        <a href="#" data-page="add">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Aggiungi Veicolo
+        </a>
+        <a href="#" data-page="list">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          <span data-i18n="admin.all_vehicles">Tutti i Veicoli</span>
+        </a>
+        <a href="#" data-page="messages">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span data-i18n="admin.messages">Messaggi</span>
+        </a>
+      </nav>
+      <div class="admin-sidebar-footer">
+        <div class="admin-lang-switcher">
+          <button class="lang-btn active" data-lang="it">IT</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+        <a href="../index.html" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <span data-i18n="admin.view_site">Vedi Sito</span>
+        </a>
+        <a href="login.html" id="logout-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span data-i18n="admin.logout">Esci</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main" id="admin-content">
+      <!-- Dashboard View -->
+      <div id="view-dashboard">
+        <div class="admin-header">
+          <h1 data-i18n="admin.dashboard">Dashboard</h1>
+          <span class="admin-vehicle-count" id="dashboard-vehicle-count"></span>
+        </div>
+        <div class="admin-stats">
+          <div class="admin-stat-card" onclick="showView('list')" style="cursor:pointer;">
+            <h3 data-i18n="admin.total_vehicles">Veicoli Totali</h3>
+            <div class="value" id="total-vehicles">0</div>
+          </div>
+          <div class="admin-stat-card" onclick="showView('list')" style="cursor:pointer;">
+            <h3 data-i18n="admin.available">Disponibili</h3>
+            <div class="value" id="available-vehicles" style="color:var(--color-success);">0</div>
+          </div>
+          <div class="admin-stat-card" onclick="showView('list')" style="cursor:pointer;">
+            <h3 data-i18n="admin.reserved">Prenotati</h3>
+            <div class="value" id="reserved-vehicles" style="color:var(--color-warning);">0</div>
+          </div>
+          <div class="admin-stat-card" onclick="showView('list')" style="cursor:pointer;">
+            <h3 data-i18n="admin.sold">Venduti</h3>
+            <div class="value" id="sold-vehicles" style="color:var(--color-danger);">0</div>
+          </div>
+        </div>
+        <div class="admin-table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th data-i18n="admin.photo">Foto</th>
+                <th data-i18n="admin.brand_model">Marca / Modello</th>
+                <th data-i18n="admin.year" class="sortable" data-sort="year">Anno</th>
+                <th data-i18n="admin.price" class="sortable" data-sort="price">Prezzo</th>
+                <th data-i18n="admin.fuel">Alimentazione</th>
+                <th data-i18n="admin.status">Status</th>
+                <th data-i18n="admin.actions">Azioni</th>
+              </tr>
+            </thead>
+            <tbody id="dashboard-table-body">
+              <tr><td colspan="7" style="text-align:center;padding:2rem;" data-i18n="admin.loading">Caricamento...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Add/Edit Vehicle View -->
+      <div id="view-add" style="display:none;">
+        <div class="admin-header">
+              <h1 id="form-title" data-i18n="admin.add_vehicle">Aggiungi Veicolo</h1>
+        </div>
+        <form class="admin-form" id="vehicle-form">
+          <input type="hidden" id="vehicle-id" value="">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="v-brand" data-i18n="admin.brand">Marca *</label>
+              <input type="text" id="v-brand" required>
+              <span class="field-error" id="err-brand"></span>
+            </div>
+            <div class="form-group">
+              <label for="v-model" data-i18n="admin.model">Modello *</label>
+              <input type="text" id="v-model" required>
+              <span class="field-error" id="err-model"></span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="v-year" data-i18n="admin.year">Anno *</label>
+              <input type="number" id="v-year" min="2000" max="2030" required>
+              <span class="field-error" id="err-year"></span>
+            </div>
+            <div class="form-group">
+              <label for="v-mileage" data-i18n="admin.mileage">Chilometraggio *</label>
+              <input type="number" id="v-mileage" min="0" required>
+              <span class="field-error" id="err-mileage"></span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="v-price" data-i18n="admin.price">Prezzo (€) *</label>
+              <input type="number" id="v-price" min="0" required>
+              <span class="field-error" id="err-price"></span>
+            </div>
+            <div class="form-group">
+              <label for="v-fuel" data-i18n="admin.fuel">Alimentazione *</label>
+              <select id="v-fuel" required>
+                <option value="">Seleziona</option>
+                <option value="Benzina">Benzina</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Ibrido">Ibrido</option>
+                <option value="Elettrica">Elettrica</option>
+                <option value="GPL">GPL</option>
+                <option value="Metano">Metano</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="v-transmission" data-i18n="admin.transmission">Cambio</label>
+              <select id="v-transmission">
+                <option value="Manuale">Manuale</option>
+                <option value="Automatic">Automatico</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label data-i18n="admin.badge">Adesivo</label>
+              <div class="badge-pills">
+                <label class="pill-radio">
+                  <input type="radio" name="badge" value="" checked>
+                  <span data-i18n="admin.no_status">Nessuno</span>
+                </label>
+                <label class="pill-radio">
+                  <input type="radio" name="badge" value="sold">
+                  <span data-i18n="admin.sold">Venduta</span>
+                </label>
+                <label class="pill-radio">
+                  <input type="radio" name="badge" value="reserved">
+                  <span data-i18n="admin.reserved_label">Prenotata</span>
+                </label>
+                <label class="pill-radio">
+                  <input type="radio" name="badge" value="new_arrival">
+                  <span data-i18n="admin.new_arrival">Nuovo Arrivo</span>
+                </label>
+                <label class="pill-radio">
+                  <input type="radio" name="badge" value="offer">
+                  <span data-i18n="admin.offer">Offerta Speciale</span>
+                </label>
+                <label class="pill-radio">
+                  <input type="radio" name="badge" value="certified">
+                  <span data-i18n="admin.certified">Certificata</span>
+                </label>
+                <label class="pill-radio">
+                  <input type="radio" name="badge" value="no_vat">
+                  <span data-i18n="admin.no_vat">IVA Esclusa</span>
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="featured-toggle">
+                <input type="checkbox" id="v-featured">
+                <span data-i18n="admin.featured">In Evidenza</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="v-image" data-i18n="admin.photo">Foto Principale</label>
+              <div class="file-upload-area" id="file-upload-area">
+                <span id="file-upload-text">Trascina un'immagine qui o clicca per caricare (max 5 MB, compressa automaticamente)</span>
+                <img id="file-upload-preview" style="display:none;">
+                <button type="button" class="btn btn-sm btn-outline" id="file-upload-remove" style="display:none;position:absolute;top:8px;right:8px;">&times;</button>
+              </div>
+              <input type="file" id="v-image-input" accept="image/*" style="display:none;">
+              <input type="hidden" id="v-image" value="/assets/images/placeholder-car.svg">
+            </div>
+            <div class="form-group">
+              <label data-i18n="admin.gallery">Galleria Foto</label>
+              <div class="gallery-upload-area" id="gallery-upload-area">
+                <div class="gallery-grid" id="gallery-grid"></div>
+                <div class="gallery-add-btn" id="gallery-add-btn" title="Aggiungi foto">
+                  <span>+</span>
+                </div>
+              </div>
+              <input type="file" id="gallery-image-input" accept="image/*" multiple style="display:none;">
+            </div>
+          </div>
+
+          <details class="form-collapsible">
+            <summary><span data-i18n="admin.technical_details">Dettagli Tecnici</span></summary>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="v-color-ext" data-i18n="admin.color_ext">Colore Esterno</label>
+                <input type="text" id="v-color-ext">
+              </div>
+              <div class="form-group">
+                <label for="v-color-int" data-i18n="admin.color_int">Colore Interno</label>
+                <input type="text" id="v-color-int">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="v-power-cv" data-i18n="admin.power_cv">Potenza (CV)</label>
+                <input type="number" id="v-power-cv" min="0">
+              </div>
+              <div class="form-group">
+                <label for="v-power-kw" data-i18n="admin.power_kw">Potenza (kW)</label>
+                <input type="number" id="v-power-kw" min="0">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="v-doors" data-i18n="admin.doors">Porte</label>
+                <select id="v-doors">
+                  <option value="">-</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="v-co2" data-i18n="admin.co2">CO₂ (g/km)</label>
+                <input type="number" id="v-co2" min="0">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="v-euro-class" data-i18n="admin.euro_class">Classe Euro</label>
+                <select id="v-euro-class">
+                  <option value="">-</option>
+                  <option value="Euro 4">Euro 4</option>
+                  <option value="Euro 5">Euro 5</option>
+                  <option value="Euro 6">Euro 6</option>
+                  <option value="Euro 6d">Euro 6d</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="v-consumption" data-i18n="admin.consumption">Consumo</label>
+                <input type="text" id="v-consumption" placeholder="es. 7.5 l/100km">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="v-registration" data-i18n="admin.registration">Immatricolazione</label>
+                <input type="text" id="v-registration" placeholder="es. 03/2022">
+              </div>
+              <div class="form-group">
+                <label><span data-i18n="admin.warranty">Garanzia</span></label>
+                <div class="checkbox-group" style="padding-top:0.75rem;">
+                  <label>
+                    <input type="checkbox" id="v-warranty">
+                    <span data-i18n="admin.warranty_label">Auto in garanzia</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <div class="form-group">
+            <label for="v-description-it" data-i18n="admin.description_it">Descrizione (Italiano)</label>
+            <textarea id="v-description-it" rows="4"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="v-description-en" data-i18n="admin.description_en">Description (English)</label>
+            <textarea id="v-description-en" rows="4"></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-outline" id="form-cancel" data-i18n="admin.cancel">Annulla</button>
+            <button type="submit" class="btn btn-primary" data-i18n="admin.save">Salva Veicolo</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- List All Vehicles View -->
+      <div id="view-list" style="display:none;">
+        <div class="admin-header">
+          <h1><span data-i18n="admin.all_vehicles">Tutti i Veicoli</span> <span id="list-vehicle-count" class="admin-vehicle-count"></span></h1>
+          <button class="btn btn-primary" data-page="add" data-i18n="admin.add_vehicle">+ Aggiungi Veicolo</button>
+        </div>
+        <div class="admin-list-filters">
+            <input type="text" id="list-search" data-i18n-placeholder="admin.search_placeholder" placeholder="Cerca per marca, modello..." style="flex:1;max-width:320px;">
+            <select id="list-status-filter" style="width:auto;min-width:140px;">
+              <option value="" data-i18n="admin.all_statuses">Tutti gli status</option>
+              <option value="available" data-i18n="admin.available">Disponibili</option>
+              <option value="reserved" data-i18n="admin.reserved">Prenotata</option>
+              <option value="sold" data-i18n="admin.sold">Venduta</option>
+              <option value="new_arrival" data-i18n="admin.new_arrival">Nuovo Arrivo</option>
+              <option value="offer" data-i18n="admin.offer">Offerta Speciale</option>
+              <option value="certified" data-i18n="admin.certified">Certificata</option>
+              <option value="no_vat" data-i18n="admin.no_vat">IVA Esclusa</option>
+            </select>
+        </div>
+        <div class="admin-table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th data-i18n="admin.photo">Foto</th>
+                <th data-i18n="admin.brand_model">Marca / Modello</th>
+                <th data-i18n="admin.year" class="sortable" data-sort="year">Anno</th>
+                <th data-i18n="admin.price" class="sortable" data-sort="price">Prezzo</th>
+                <th data-i18n="admin.fuel">Alimentazione</th>
+                <th data-i18n="admin.status">Status</th>
+                <th data-i18n="admin.actions">Azioni</th>
+              </tr>
+            </thead>
+            <tbody id="list-table-body">
+              <tr><td colspan="7" style="text-align:center;padding:2rem;" data-i18n="admin.loading">Caricamento...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Messages View -->
+      <div id="view-messages" style="display:none;">
+        <div class="admin-header">
+          <h1><span data-i18n="admin.messages">Messaggi</span></h1>
+        </div>
+        <div class="admin-table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th data-i18n="admin.message_date">Data</th>
+                <th data-i18n="admin.message_name">Nome</th>
+                <th data-i18n="admin.message_email">Email</th>
+                <th data-i18n="admin.message_subject">Oggetto</th>
+                <th data-i18n="admin.message_preview">Messaggio</th>
+                <th data-i18n="admin.actions">Azioni</th>
+              </tr>
+            </thead>
+            <tbody id="messages-table-body">
+              <tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--color-gray-400);"><span data-i18n="admin.no_messages">Nessun messaggio</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Confirm Modal -->
+  <div class="modal-overlay" id="confirm-modal" style="display:none;">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 data-i18n="admin.confirm_title">Conferma</h3>
+      </div>
+      <div class="modal-body">
+        <p id="modal-message"></p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="modal-cancel" data-i18n="admin.cancel">Annulla</button>
+        <button class="btn btn-danger" id="modal-confirm" data-i18n="admin.confirm_delete_btn">Elimina</button>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+</html>

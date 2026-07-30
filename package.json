@@ -1,0 +1,23 @@
+{
+  "name": "dcr-sicily-cars",
+  "version": "1.0.0",
+  "description": "DCR Sicily Cars - Car dealership website",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && cp -r data dist/data && cp -r js dist/js && cp dist/pages/404.html dist/404.html",
+    "preview": "vite preview",
+    "deploy": "npm run build && wrangler pages deploy dist --branch production",
+    "deploy:preview": "npm run build && wrangler pages deploy dist --branch preview",
+    "db:init": "wrangler d1 execute dcr-messages --file=./schema.sql"
+  },
+  "keywords": [
+    "car-dealership",
+    "jamstack",
+    "vanilla-js"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^8.1.4",
+    "wrangler": "^4.0.0"
+  }
+}

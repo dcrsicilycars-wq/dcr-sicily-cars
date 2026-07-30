@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <rect width="400" height="300" fill="#F0F0F0"/>
+  <g transform="translate(100, 100)">
+    <rect x="10" y="30" width="180" height="70" rx="15" fill="#CCCCCC"/>
+    <rect x="30" y="10" width="140" height="40" rx="10" fill="#BBBBBB"/>
+    <circle cx="45" cy="100" r="20" fill="#999999"/>
+    <circle cx="155" cy="100" r="20" fill="#999999"/>
+    <rect x="55" y="85" width="90" height="5" rx="2" fill="#AAAAAA"/>
+  </g>
+  <text x="200" y="270" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#999999">DCR Sicily Cars</text>
+</svg>
