@@ -160,15 +160,19 @@ window.deleteVehicle = async function(id) {
     i18n.t('admin.confirm_delete'),
     async function() {
       try {
-        await fetch('/api/vehicles/' + id, {
+        const res = await fetch('/api/vehicles/' + id, {
           method: 'DELETE',
           headers: getAuthHeaders()
         })
+        if (!res.ok) {
+          const json = await res.json().catch(() => ({}))
+          throw new Error(json.error || 'Errore eliminazione')
+        }
         await vehicleData.loadVehicles(true)
         showToast(i18n.t('admin.deleted'), 'info')
         refreshViews()
       } catch (e) {
-        showToast(i18n.t('contact.error'), 'error')
+        showToast(e.message || i18n.t('contact.error'), 'error')
       }
       closeModal()
     }
@@ -181,16 +185,20 @@ window.duplicateVehicle = async function(id) {
   const copy = { ...v, featured: false, badge: null }
   delete copy.id
   try {
-    await fetch('/api/vehicles', {
+    const res = await fetch('/api/vehicles', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
       body: JSON.stringify(copy)
     })
+    if (!res.ok) {
+      const json = await res.json().catch(() => ({}))
+      throw new Error(json.error || 'Errore duplicazione')
+    }
     await vehicleData.loadVehicles(true)
     showToast(i18n.t('admin.duplicated'), 'success')
     refreshViews()
   } catch (e) {
-    showToast(i18n.t('contact.error'), 'error')
+    showToast(e.message || i18n.t('contact.error'), 'error')
   }
 }
 
@@ -320,10 +328,12 @@ function renderGalleryGrid() {
 
 async function syncToServer(vehicle, editingId) {
   const headers = { 'Content-Type': 'application/json', ...getAuthHeaders() }
-  if (editingId) {
-    await fetch('/api/vehicles/' + editingId, { method: 'PUT', headers, body: JSON.stringify(vehicle) })
-  } else {
-    await fetch('/api/vehicles', { method: 'POST', headers, body: JSON.stringify(vehicle) })
+  const url = editingId ? `/api/vehicles/${editingId}` : '/api/vehicles'
+  const method = editingId ? 'PUT' : 'POST'
+  const res = await fetch(url, { method, headers, body: JSON.stringify(vehicle) })
+  if (!res.ok) {
+    const json = await res.json().catch(() => ({}))
+    throw new Error(json.error || 'Errore salvataggio veicolo')
   }
 }
 
@@ -335,6 +345,10 @@ async function uploadVehicleImages(vehicle) {
       method: 'POST', headers: uploadHeaders,
       body: JSON.stringify({ image: vehicle.image })
     })
+    if (!res.ok) {
+      const json = await res.json().catch(() => ({}))
+      throw new Error(json.error || 'Errore upload immagine')
+    }
     const json = await res.json()
     if (json.success) vehicle.image = json.image
   }
@@ -345,6 +359,10 @@ async function uploadVehicleImages(vehicle) {
       method: 'POST', headers: uploadHeaders,
       body: JSON.stringify({ gallery: vehicle.gallery })
     })
+    if (!res.ok) {
+      const json = await res.json().catch(() => ({}))
+      throw new Error(json.error || 'Errore upload gallery')
+    }
     const json = await res.json()
     if (json.success && json.gallery) vehicle.gallery = json.gallery
   }
