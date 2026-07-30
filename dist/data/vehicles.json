@@ -1,0 +1,219 @@
+[
+  {
+    "id": 1,
+    "brand": "BMW",
+    "model": "X5",
+    "year": 2022,
+    "mileage": 15000,
+    "price": 55000,
+    "fuel": "Diesel",
+    "transmission": "Automatic",
+    "image": "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80",
+    "gallery": [],
+    "badge": null,
+    "featured": true,
+    "description": {
+      "it": "BMW X5 di ultima generazione in perfette condizioni. Interni in pelle, cerchi in lega, sistema di navigazione professionale.",
+      "en": "Latest generation BMW X5 in perfect condition. Leather interior, alloy wheels, professional navigation system."
+    }
+  },
+  {
+    "id": 2,
+    "brand": "Mercedes",
+    "model": "Classe C",
+    "year": 2021,
+    "mileage": 28000,
+    "price": 38000,
+    "fuel": "Benzina",
+    "transmission": "Automatic",
+    "image": "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80",
+    "gallery": [],
+    "badge": null,
+    "featured": true,
+    "description": {
+      "it": "Mercedes Classe C berlina, elegante e confortevole. Mantenuta perfettamente con tagliandi regolari.",
+      "en": "Mercedes C-Class sedan, elegant and comfortable. Perfectly maintained with regular servicing."
+    }
+  },
+  {
+    "id": 3,
+    "brand": "Audi",
+    "model": "Q5",
+    "year": 2023,
+    "mileage": 8000,
+    "price": 49000,
+    "fuel": "Ibrido",
+    "transmission": "Automatic",
+    "image": "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=800&q=80",
+    "gallery": [],
+    "badge": "reserved",
+    "featured": true,
+    "description": {
+      "it": "Audi Q5 ibrida plug-in, tecnologia all'avanguardia e consumi ridotti. Pronta consegna.",
+      "en": "Audi Q5 plug-in hybrid, cutting-edge technology and reduced consumption. Ready for delivery."
+    }
+  },
+  {
+    "id": 4,
+    "brand": "Fiat",
+    "model": "500",
+    "year": 2023,
+    "mileage": 5000,
+    "price": 18500,
+    "fuel": "Benzina",
+    "transmission": "Manuale",
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80",
+    "gallery": [],
+    "badge": "sold",
+    "soldDate": "2026-07-21",
+    "featured": false,
+    "description": {
+      "it": "Fiat 500 nuova, colorazione vivace e personalizzata. Veicolo già venduto.",
+      "en": "Brand new Fiat 500, vibrant and customized color. Vehicle already sold."
+    }
+  },
+  {
+    "id": 5,
+    "brand": "Volkswagen",
+    "model": "Golf",
+    "year": 2022,
+    "mileage": 12000,
+    "price": 27000,
+    "fuel": "Diesel",
+    "transmission": "Automatic",
+    "image": "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80",
+    "gallery": [],
+    "badge": null,
+    "featured": true,
+    "description": {
+      "it": "Volkswagen Golf VIII, agile e tecnologica. Ottima per città e viaggi.",
+      "en": "Volkswagen Golf VIII, agile and technological. Great for city and travel."
+    }
+  },
+  {
+    "id": 6,
+    "brand": "Tesla",
+    "model": "Model 3",
+    "year": 2023,
+    "mileage": 3000,
+    "price": 45000,
+    "fuel": "Elettrica",
+    "transmission": "Automatic",
+    "image": "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&q=80",
+    "gallery": [],
+    "badge": null,
+    "featured": true,
+    "description": {
+      "it": "Tesla Model 3, full electric, autopilot integrato. Tecnologia e sostenibilità.",
+      "en": "Tesla Model 3, full electric, integrated autopilot. Technology and sustainability."
+    }
+  },
+  {
+    "id": 7,
+    "brand": "Alfa Romeo",
+    "model": "Giulia",
+    "year": 2023,
+    "mileage": 9000,
+    "price": 42000,
+    "fuel": "Diesel",
+    "transmission": "Automatic",
+    "image": "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80",
+    "gallery": [],
+    "badge": null,
+    "featured": true,
+    "description": {
+      "it": "Alfa Romeo Giulia Veloce, eleganza e prestazioni. Dotazione completa, interni in pelle e cerchi in lega.",
+      "en": "Alfa Romeo Giulia Veloce, elegance and performance. Full equipment, leather interior and alloy wheels."
+    }
+  },
+  {
+    "id": 8,
+    "brand": "Land Rover",
+    "model": "Range Rover Sport",
+    "year": 2022,
+    "mileage": 22000,
+    "price": 72000,
+    "fuel": "Diesel",
+    "transmission": "Automatic",
+    "image": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80",
+    "gallery": [],
+    "badge": null,
+    "featured": true,
+    "description": {
+      "it": "Range Rover Sport, lusso e versatilità. Interni in pelle, sospensioni pneumatiche, sistema Hi-Fi premium.",
+      "en": "Range Rover Sport, luxury and versatility. Leather interior, air suspension, premium sound system."
+    }
+  },
+  {
+    "id": 9,
+    "brand": "Porsche",
+    "model": "Cayenne",
+    "year": 2021,
+    "mileage": 35000,
+    "price": 65000,
+    "fuel": "Benzina",
+    "transmission": "Automatic",
+    "image": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80",
+    "gallery": [],
+    "badge": null,
+    "featured": false,
+    "description": {
+      "it": "Porsche Cayenne, sportività e comfort. Cerchi in lega, interni in pelle e sistema di infotainment.",
+      "en": "Porsche Cayenne, sportiness and comfort. Alloy wheels, leather interior and infotainment system."
+    }
+  },
+  {
+    "id": 10,
+    "brand": "Renault",
+    "model": "Clio",
+    "year": 2023,
+    "mileage": 1500,
+    "price": 16500,
+    "fuel": "Benzina",
+    "transmission": "Manuale",
+    "image": "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&q=80",
+    "gallery": [],
+    "badge": null,
+    "featured": false,
+    "description": {
+      "it": "Renault Clio nuova, praticità e stile. Climatizzatore, sensori di parcheggio e connettività smartphone.",
+      "en": "Brand new Renault Clio, practicality and style. Air conditioning, parking sensors and smartphone connectivity."
+    }
+  },
+  {
+    "id": 11,
+    "brand": "Toyota",
+    "model": "Yaris Cross",
+    "year": 2023,
+    "mileage": 6000,
+    "price": 24000,
+    "fuel": "Ibrido",
+    "transmission": "Automatic",
+    "image": "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&q=80",
+    "gallery": [],
+    "badge": "reserved",
+    "featured": true,
+    "description": {
+      "it": "Toyota Yaris Cross ibrida, consumo ridotto e tecnologia Toyota Safety Sense. Pronta consegna.",
+      "en": "Toyota Yaris Cross hybrid, low consumption and Toyota Safety Sense technology. Ready for delivery."
+    }
+  },
+  {
+    "id": 12,
+    "brand": "Jeep",
+    "model": "Compass",
+    "year": 2022,
+    "mileage": 18000,
+    "price": 29000,
+    "fuel": "Diesel",
+    "transmission": "Automatic",
+    "image": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80",
+    "gallery": [],
+    "badge": null,
+    "featured": false,
+    "description": {
+      "it": "Jeep Compass, robustezza e comfort. Trazione integrale, tetto panoramico e interni in pelle.",
+      "en": "Jeep Compass, robustness and comfort. All-wheel drive, panoramic roof and leather interior."
+    }
+  }
+]
