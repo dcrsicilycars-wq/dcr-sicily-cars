@@ -647,7 +647,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     uploadArea.style.background = ''
   })
 
-  const MAX_IMAGE_SIZE = 5 * 1024 * 1024
+  const MAX_IMAGE_SIZE = 10 * 1024 * 1024
   const MAX_IMAGE_DIM = 1200
   const IMAGE_QUALITY = 0.8
 
