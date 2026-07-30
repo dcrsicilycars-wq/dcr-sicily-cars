@@ -70,20 +70,14 @@ function vehicleToRow(v) {
 
 export async function onRequest(context) {
   const { request, env, params } = context
-  const url = new URL(request.url)
-  const pathParts = url.pathname.replace('/api/vehicles', '').split('/').filter(Boolean)
-  const id = pathParts[0] || null
+  const { id } = params
 
   if (request.method === 'GET') {
-    if (id) {
-      const row = await env.DB.prepare('SELECT * FROM vehicles WHERE id = ?').bind(id).first()
-      if (!row) {
-        return Response.json({ success: false, error: 'Veicolo non trovato' }, { status: 404 })
-      }
-      return Response.json({ success: true, vehicle: rowToVehicle(row) })
+    const row = await env.DB.prepare('SELECT * FROM vehicles WHERE id = ?').bind(id).first()
+    if (!row) {
+      return Response.json({ success: false, error: 'Veicolo non trovato' }, { status: 404 })
     }
-    const { results } = await env.DB.prepare('SELECT * FROM vehicles ORDER BY id DESC').all()
-    return Response.json({ success: true, vehicles: results.map(rowToVehicle) })
+    return Response.json({ success: true, vehicle: rowToVehicle(row) })
   }
 
   const auth = request.headers.get('Authorization')
@@ -91,33 +85,7 @@ export async function onRequest(context) {
     return Response.json({ success: false, error: 'Non autorizzato' }, { status: 401 })
   }
 
-  if (request.method === 'POST') {
-    try {
-      const v = await request.json()
-      const row = vehicleToRow(v)
-      const stmt = env.DB.prepare(
-        `INSERT INTO vehicles (brand, model, year, mileage, price, fuel, transmission, image, gallery, badge, featured,
-          description_it, description_en, color_ext, color_int, doors, power_cv, power_kw, co2, euro_class, consumption,
-          registration, warranty)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-      ).bind(
-        row.brand, row.model, row.year, row.mileage, row.price, row.fuel, row.transmission,
-        row.image, row.gallery, row.badge, row.featured,
-        row.description_it, row.description_en,
-        row.color_ext, row.color_int, row.doors, row.power_cv, row.power_kw,
-        row.co2, row.euro_class, row.consumption, row.registration, row.warranty
-      )
-      const result = await stmt.run()
-      return Response.json({ success: true, id: result.meta.last_row_id })
-    } catch (e) {
-      return Response.json({ success: false, error: e.message }, { status: 500 })
-    }
-  }
-
   if (request.method === 'PUT') {
-    if (!id) {
-      return Response.json({ success: false, error: 'ID richiesto' }, { status: 400 })
-    }
     try {
       const v = await request.json()
       const row = vehicleToRow(v)
@@ -142,9 +110,6 @@ export async function onRequest(context) {
   }
 
   if (request.method === 'DELETE') {
-    if (!id) {
-      return Response.json({ success: false, error: 'ID richiesto' }, { status: 400 })
-    }
     try {
       await env.DB.prepare('DELETE FROM vehicles WHERE id = ?').bind(id).run()
       return Response.json({ success: true })
