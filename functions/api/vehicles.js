@@ -99,7 +99,7 @@ export async function onRequest(context) {
         `INSERT INTO vehicles (brand, model, year, mileage, price, fuel, transmission, image, gallery, badge, featured,
           description_it, description_en, color_ext, color_int, doors, power_cv, power_kw, co2, euro_class, consumption,
           registration, warranty)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       ).bind(
         row.brand, row.model, row.year, row.mileage, row.price, row.fuel, row.transmission,
         row.image, row.gallery, row.badge, row.featured,
