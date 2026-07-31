@@ -1,3 +1,7 @@
+function imgUrl(v) {
+  return v.image && v.image !== '/assets/images/placeholder-car.svg' ? v.image : (v.gallery && v.gallery[0]) || v.image
+}
+
 export class VehicleRenderer {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
@@ -13,7 +17,7 @@ export class VehicleRenderer {
     return `
       <div class="car-card" data-id="${vehicle.id}">
         <div class="car-card-image">
-          <img src="${vehicle.image}" alt="${vehicle.brand} ${vehicle.model}" loading="lazy">
+          <img src="${imgUrl(vehicle)}" alt="${vehicle.brand} ${vehicle.model}" loading="lazy">
           ${badgeHtml}
         </div>
         <div class="car-card-body">

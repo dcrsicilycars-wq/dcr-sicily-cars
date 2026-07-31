@@ -281,7 +281,28 @@
 
   .contact-map {
     margin-top: var(--spacing-2xl);
-    min-height: 200px;
+    min-height: 260px;
+  }
+
+  #map-placeholder {
+    padding: var(--spacing-lg) !important;
+    gap: var(--spacing-sm) !important;
+  }
+
+  #map-placeholder svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  #map-placeholder p {
+    font-size: var(--text-xs);
+    max-width: 240px;
+  }
+
+  #map-placeholder .btn {
+    font-size: var(--text-sm);
+    padding: var(--spacing-xs) var(--spacing-md);
+    white-space: nowrap;
   }
 
   .stats-grid {

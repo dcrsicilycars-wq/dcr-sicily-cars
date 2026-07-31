@@ -1,3 +1,5 @@
+import '../admin/css/admin.css'
+import heic2any from 'heic2any'
 import { i18n } from './i18n.js'
 import { vehicleData } from './data.js'
 
@@ -54,9 +56,10 @@ function tableRow(v) {
   const featuredHtml = v.featured ? '<span class="featured-star" title="' + i18n.t('admin.featured') + '">&#9733;</span>' : ''
   const price = `€ ${v.price.toLocaleString()}`
   const t = (key) => i18n.t(key)
+  const thumbSrc = v.image && v.image !== '/assets/images/placeholder-car.svg' ? v.image : (v.gallery && v.gallery[0]) || v.image
   return `
     <tr>
-      <td data-label="${t('admin.photo')}"><img src="${v.image}" alt="${v.brand} ${v.model}" class="thumb" loading="lazy"></td>
+      <td data-label="${t('admin.photo')}"><img src="${thumbSrc}" alt="${v.brand} ${v.model}" class="thumb" loading="lazy"></td>
       <td data-label="${t('admin.brand_model')}"><strong>${v.brand}</strong> ${v.model} ${featuredHtml}</td>
       <td data-label="${t('admin.year')}">${v.year}</td>
       <td data-label="${t('admin.price')}">${price}</td>
@@ -108,6 +111,8 @@ window.editVehicle = function(id) {
   const v = vehicleData.getById(id)
   if (!v) return
 
+  showView('add')
+
   editingId = id
   document.getElementById('form-title').textContent = i18n.t('admin.edit_vehicle')
   document.getElementById('vehicle-id').value = id
@@ -149,7 +154,6 @@ window.editVehicle = function(id) {
 
   clearErrors()
   formDirty = false
-  showView('add')
 }
 
 window.deleteVehicle = async function(id) {
@@ -340,6 +344,10 @@ async function uploadVehicleImages(vehicle) {
     const json = await res.json()
     if (json.success && json.gallery) vehicle.gallery = json.gallery
   }
+
+  if ((!vehicle.image || vehicle.image === '/assets/images/placeholder-car.svg') && vehicle.gallery && vehicle.gallery.length) {
+    vehicle.image = vehicle.gallery[0]
+  }
 }
 
 function showToast(message, type = 'info') {
@@ -392,7 +400,10 @@ function getAuthHeaders() {
 }
 
 /* ---- Messages ---- */
+let messagesLoading = false
 async function loadMessages() {
+  if (messagesLoading) return
+  messagesLoading = true
   try {
     const res = await fetch('/api/messages', { headers: getAuthHeaders() })
     const json = await res.json()
@@ -402,7 +413,19 @@ async function loadMessages() {
       messages = []
     }
   } catch (e) { messages = [] }
+  finally {
+    messagesLoading = false
+  }
   renderMessages()
+  updateMessagesBadge()
+}
+
+function updateMessagesBadge() {
+  const badge = document.getElementById('msg-badge')
+  if (!badge) return
+  const unread = messages.filter(m => !m.read).length
+  badge.textContent = unread
+  badge.style.display = unread > 0 ? '' : 'none'
 }
 
 function renderMessages() {
@@ -442,6 +465,7 @@ window.viewMessage = async function(id) {
       })
     } catch (e) {}
     renderMessages()
+    updateMessagesBadge()
   }
   const content = `<strong>${i18n.t('admin.message_name')}:</strong> ${m.name || '-'}<br>
 <strong>${i18n.t('admin.message_email')}:</strong> ${m.email || '-'}<br>
@@ -460,6 +484,7 @@ window.deleteMessage = async function(id) {
       })
       messages = messages.filter(m => m.id !== id)
       renderMessages()
+      updateMessagesBadge()
       showToast(i18n.t('admin.deleted'), 'info')
     } catch (e) {
       showToast(i18n.t('contact.error'), 'error')
@@ -674,13 +699,27 @@ document.addEventListener('DOMContentLoaded', async () => {
   const MAX_IMAGE_DIM = 1200
   const IMAGE_QUALITY = 0.8
 
-  function compressImage(file) {
+  async function compressImage(file) {
+    let targetFile = file
+    const isHeic = /\.heic$/i.test(file.name) || /\.heif$/i.test(file.name) ||
+      file.type === 'image/heic' || file.type === 'image/heif'
+
+    if (isHeic) {
+      try {
+        const result = await heic2any({ blob: file, toType: 'image/jpeg', quality: IMAGE_QUALITY })
+        const blob = Array.isArray(result) ? result[0] : result
+        targetFile = new File([blob], file.name.replace(/\.heic$/i, '.jpg').replace(/\.heif$/i, '.jpg'), { type: 'image/jpeg' })
+      } catch (e) {
+        throw new Error(i18n.t('admin.error_heic'))
+      }
+    }
+
     return new Promise((resolve, reject) => {
-      if (file.size > MAX_IMAGE_SIZE) {
+      if (targetFile.size > MAX_IMAGE_SIZE) {
         reject(new Error(i18n.t('admin.error_image_size')))
         return
       }
-      if (!file.type.startsWith('image/')) {
+      if (!targetFile.type.startsWith('image/')) {
         reject(new Error(i18n.t('admin.error_image_type')))
         return
       }
@@ -688,26 +727,42 @@ document.addEventListener('DOMContentLoaded', async () => {
       reader.onload = (e) => {
         const img = new Image()
         img.onload = () => {
-          let { width, height } = img
-          if (width > MAX_IMAGE_DIM || height > MAX_IMAGE_DIM) {
-            const ratio = Math.min(MAX_IMAGE_DIM / width, MAX_IMAGE_DIM / height)
-            width = Math.round(width * ratio)
-            height = Math.round(height * ratio)
+          let srcW = img.naturalWidth || img.width
+          let srcH = img.naturalHeight || img.height
+          const targetRatio = 4 / 3
+          let cropX, cropY, cropW, cropH
+          if (srcW / srcH > targetRatio) {
+            cropH = srcH
+            cropW = Math.round(srcH * targetRatio)
+            cropX = Math.round((srcW - cropW) / 2)
+            cropY = 0
+          } else {
+            cropW = srcW
+            cropH = Math.round(srcW / targetRatio)
+            cropX = 0
+            cropY = Math.round((srcH - cropH) / 2)
+          }
+          let finalW = cropW
+          let finalH = cropH
+          if (finalW > MAX_IMAGE_DIM || finalH > MAX_IMAGE_DIM) {
+            const ratio = Math.min(MAX_IMAGE_DIM / finalW, MAX_IMAGE_DIM / finalH)
+            finalW = Math.round(finalW * ratio)
+            finalH = Math.round(finalH * ratio)
           }
           const canvas = document.createElement('canvas')
-          canvas.width = width
-          canvas.height = height
+          canvas.width = finalW
+          canvas.height = finalH
           const ctx = canvas.getContext('2d')
           ctx.imageSmoothingEnabled = true
           ctx.imageSmoothingQuality = 'high'
-          ctx.drawImage(img, 0, 0, width, height)
+          ctx.drawImage(img, cropX, cropY, cropW, cropH, 0, 0, finalW, finalH)
           resolve(canvas.toDataURL('image/jpeg', IMAGE_QUALITY))
         }
         img.onerror = () => reject(new Error(i18n.t('admin.error_image_read')))
         img.src = e.target.result
       }
       reader.onerror = () => reject(new Error(i18n.t('admin.error_file_read')))
-      reader.readAsDataURL(file)
+      reader.readAsDataURL(targetFile)
     })
   }
 
@@ -840,6 +895,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Load messages
   loadMessages()
+
+  // Periodic refresh for unread messages badge
+  setInterval(loadMessages, 60000)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') loadMessages()
+  })
 
   // Apply i18n after page render
   setTimeout(applyI18n, 100)

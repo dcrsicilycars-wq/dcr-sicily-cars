@@ -30,14 +30,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 function initCookieBanner() {
   const banner = document.getElementById('cookie-banner')
   const acceptBtn = document.getElementById('cookie-accept')
+  const rejectBtn = document.getElementById('cookie-reject')
   if (!banner || !acceptBtn) return
 
-  if (localStorage.getItem('dcr-cookie-consent') === 'accepted') return
+  if (localStorage.getItem('dcr-cookie-consent')) return
 
   setTimeout(() => banner.classList.add('show'), 500)
 
   acceptBtn.addEventListener('click', () => {
     localStorage.setItem('dcr-cookie-consent', 'accepted')
+    banner.classList.remove('show')
+    setTimeout(() => banner.remove(), 400)
+  })
+
+  if (rejectBtn) rejectBtn.addEventListener('click', () => {
+    localStorage.setItem('dcr-cookie-consent', 'rejected')
     banner.classList.remove('show')
     setTimeout(() => banner.remove(), 400)
   })
