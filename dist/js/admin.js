@@ -1,7 +1,13 @@
 import '../admin/css/admin.css'
 import heic2any from 'heic2any'
+import Cropper from 'cropperjs'
+import 'cropperjs/dist/cropper.css'
 import { i18n } from './i18n.js'
 import { vehicleData } from './data.js'
+
+function formatNum(n) {
+  return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+}
 
 window.i18n = i18n
 window.vehicleData = vehicleData
@@ -54,7 +60,7 @@ function tableRow(v) {
     ? `<span class="badge badge-${v.badge}">${i18n.t('admin.' + v.badge + '_upper')}</span>`
     : `<span class="badge badge-none">-</span>`
   const featuredHtml = v.featured ? '<span class="featured-star" title="' + i18n.t('admin.featured') + '">&#9733;</span>' : ''
-  const price = `€ ${v.price.toLocaleString()}`
+  const price = `€ ${formatNum(v.price)}`
   const t = (key) => i18n.t(key)
   const thumbSrc = v.image && v.image !== '/assets/images/placeholder-car.svg' ? v.image : (v.gallery && v.gallery[0]) || v.image
   return `
@@ -144,9 +150,8 @@ window.editVehicle = function(id) {
   const preview = document.getElementById('file-upload-preview')
   if (v.image && v.image !== '/assets/images/placeholder-car.svg') {
     preview.src = v.image
-    preview.style.display = 'block'
+    document.getElementById('file-upload-actions').style.display = ''
     document.getElementById('file-upload-text').style.display = 'none'
-    document.getElementById('file-upload-remove').style.display = ''
   }
 
   galleryData = v.gallery ? [...v.gallery] : []
@@ -202,10 +207,9 @@ function resetForm() {
   document.getElementById('vehicle-form').reset()
   document.getElementById('vehicle-id').value = ''
   document.getElementById('v-image').value = '/assets/images/placeholder-car.svg'
-  document.getElementById('file-upload-preview').style.display = 'none'
+  document.getElementById('file-upload-actions').style.display = 'none'
   document.getElementById('file-upload-text').style.display = 'block'
   document.getElementById('file-upload-text').textContent = i18n.t('admin.upload_image')
-  document.getElementById('file-upload-remove').style.display = 'none'
 
   document.querySelectorAll('.form-collapsible input, .form-collapsible select').forEach(el => {
     if (el.type !== 'checkbox') el.value = ''
@@ -699,7 +703,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const MAX_IMAGE_DIM = 1200
   const IMAGE_QUALITY = 0.8
 
-  async function compressImage(file) {
+  async function loadImageFile(file) {
     let targetFile = file
     const isHeic = /\.heic$/i.test(file.name) || /\.heif$/i.test(file.name) ||
       file.type === 'image/heic' || file.type === 'image/heif'
@@ -714,56 +718,63 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
 
+    if (targetFile.size > MAX_IMAGE_SIZE) {
+      throw new Error(i18n.t('admin.error_image_size'))
+    }
+    if (!targetFile.type.startsWith('image/')) {
+      throw new Error(i18n.t('admin.error_image_type'))
+    }
     return new Promise((resolve, reject) => {
-      if (targetFile.size > MAX_IMAGE_SIZE) {
-        reject(new Error(i18n.t('admin.error_image_size')))
-        return
-      }
-      if (!targetFile.type.startsWith('image/')) {
-        reject(new Error(i18n.t('admin.error_image_type')))
-        return
-      }
       const reader = new FileReader()
-      reader.onload = (e) => {
-        const img = new Image()
-        img.onload = () => {
-          let srcW = img.naturalWidth || img.width
-          let srcH = img.naturalHeight || img.height
-          const targetRatio = 4 / 3
-          let cropX, cropY, cropW, cropH
-          if (srcW / srcH > targetRatio) {
-            cropH = srcH
-            cropW = Math.round(srcH * targetRatio)
-            cropX = Math.round((srcW - cropW) / 2)
-            cropY = 0
-          } else {
-            cropW = srcW
-            cropH = Math.round(srcW / targetRatio)
-            cropX = 0
-            cropY = Math.round((srcH - cropH) / 2)
-          }
-          let finalW = cropW
-          let finalH = cropH
-          if (finalW > MAX_IMAGE_DIM || finalH > MAX_IMAGE_DIM) {
-            const ratio = Math.min(MAX_IMAGE_DIM / finalW, MAX_IMAGE_DIM / finalH)
-            finalW = Math.round(finalW * ratio)
-            finalH = Math.round(finalH * ratio)
-          }
-          const canvas = document.createElement('canvas')
-          canvas.width = finalW
-          canvas.height = finalH
-          const ctx = canvas.getContext('2d')
-          ctx.imageSmoothingEnabled = true
-          ctx.imageSmoothingQuality = 'high'
-          ctx.drawImage(img, cropX, cropY, cropW, cropH, 0, 0, finalW, finalH)
-          resolve(canvas.toDataURL('image/jpeg', IMAGE_QUALITY))
-        }
-        img.onerror = () => reject(new Error(i18n.t('admin.error_image_read')))
-        img.src = e.target.result
-      }
+      reader.onload = (e) => resolve(e.target.result)
       reader.onerror = () => reject(new Error(i18n.t('admin.error_file_read')))
       reader.readAsDataURL(targetFile)
     })
+  }
+
+  function centerCropToDataUrl(dataUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image()
+      img.onload = () => {
+        let srcW = img.naturalWidth || img.width
+        let srcH = img.naturalHeight || img.height
+        const targetRatio = 4 / 3
+        let cropX, cropY, cropW, cropH
+        if (srcW / srcH > targetRatio) {
+          cropH = srcH
+          cropW = Math.round(srcH * targetRatio)
+          cropX = Math.round((srcW - cropW) / 2)
+          cropY = 0
+        } else {
+          cropW = srcW
+          cropH = Math.round(srcW / targetRatio)
+          cropX = 0
+          cropY = Math.round((srcH - cropH) / 2)
+        }
+        let finalW = cropW
+        let finalH = cropH
+        if (finalW > MAX_IMAGE_DIM || finalH > MAX_IMAGE_DIM) {
+          const ratio = Math.min(MAX_IMAGE_DIM / finalW, MAX_IMAGE_DIM / finalH)
+          finalW = Math.round(finalW * ratio)
+          finalH = Math.round(finalH * ratio)
+        }
+        const canvas = document.createElement('canvas')
+        canvas.width = finalW
+        canvas.height = finalH
+        const ctx = canvas.getContext('2d')
+        ctx.imageSmoothingEnabled = true
+        ctx.imageSmoothingQuality = 'high'
+        ctx.drawImage(img, cropX, cropY, cropW, cropH, 0, 0, finalW, finalH)
+        resolve(canvas.toDataURL('image/jpeg', IMAGE_QUALITY))
+      }
+      img.onerror = () => reject(new Error(i18n.t('admin.error_image_read')))
+      img.src = dataUrl
+    })
+  }
+
+  async function compressImage(file) {
+    const dataUrl = await loadImageFile(file)
+    return centerCropToDataUrl(dataUrl)
   }
 
   function handleImageError(msg) {
@@ -776,31 +787,121 @@ document.addEventListener('DOMContentLoaded', async () => {
     uploadArea.style.background = ''
     const file = e.dataTransfer.files[0]
     if (file && file.type.startsWith('image/')) {
-      compressImage(file).then(setMainImagePreview).catch(handleImageError)
+      loadImageFile(file).then(openMainImageCrop).catch(handleImageError)
     }
   })
 
   document.getElementById('v-image-input')?.addEventListener('change', function() {
     const file = this.files[0]
     if (!file) return
-    compressImage(file).then(setMainImagePreview).catch(handleImageError)
+    loadImageFile(file).then(openMainImageCrop).catch(handleImageError)
   })
 
   function setMainImagePreview(dataUrl) {
     const preview = document.getElementById('file-upload-preview')
     preview.src = dataUrl
-    preview.style.display = 'block'
+    document.getElementById('file-upload-actions').style.display = ''
     document.getElementById('file-upload-text').style.display = 'none'
-    document.getElementById('file-upload-remove').style.display = ''
     document.getElementById('v-image').value = dataUrl
   }
+
+  let cropperInstance = null
+  let cropResolve = null
+
+  function destroyCropper() {
+    if (cropperInstance) {
+      cropperInstance.destroy()
+      cropperInstance = null
+    }
+  }
+
+  function openCropModal(dataUrl) {
+    return new Promise((resolve) => {
+      cropResolve = resolve
+      const modal = document.getElementById('crop-modal')
+      const img = document.getElementById('crop-image')
+      destroyCropper()
+      let started = false
+      const initCropper = () => {
+        if (started) return
+        started = true
+        cropperInstance = new Cropper(img, {
+          aspectRatio: 4 / 3,
+          viewMode: 1,
+          autoCropArea: 0.8,
+          dragMode: 'move',
+          background: true,
+          guides: true,
+          center: true,
+          highlight: false,
+          cropBoxMovable: true,
+          cropBoxResizable: true,
+          toggleDragModeOnDblclick: false,
+          checkCrossOrigin: false
+        })
+      }
+      img.onload = initCropper
+      img.onerror = () => {
+        closeCropModal()
+        cropResolve = null
+        showToast(i18n.t('admin.error_image_read'), 'error')
+      }
+      img.src = dataUrl
+      modal.style.display = 'flex'
+      if (img.complete && img.naturalWidth > 0) {
+        queueMicrotask(initCropper)
+      }
+    })
+  }
+
+  function closeCropModal() {
+    destroyCropper()
+    document.getElementById('crop-modal').style.display = 'none'
+  }
+
+  function applyCrop() {
+    if (!cropperInstance) return
+    const canvas = cropperInstance.getCroppedCanvas({ maxWidth: MAX_IMAGE_DIM, maxHeight: Math.round(MAX_IMAGE_DIM * 3 / 4), imageSmoothingEnabled: true, imageSmoothingQuality: 'high' })
+    if (!canvas) return
+    const dataUrl = canvas.toDataURL('image/jpeg', IMAGE_QUALITY)
+    const resolve = cropResolve
+    closeCropModal()
+    if (resolve) resolve(dataUrl)
+  }
+
+  document.getElementById('crop-apply')?.addEventListener('click', applyCrop)
+  document.getElementById('crop-cancel')?.addEventListener('click', () => {
+    const resolve = cropResolve
+    closeCropModal()
+    if (resolve) resolve(null)
+  })
+  document.getElementById('crop-modal')?.addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+      const resolve = cropResolve
+      closeCropModal()
+      if (resolve) resolve(null)
+    }
+  })
+
+  function openMainImageCrop(dataUrl) {
+    openCropModal(dataUrl).then((cropped) => {
+      if (cropped) setMainImagePreview(cropped)
+    })
+  }
+
+  document.getElementById('file-upload-crop')?.addEventListener('click', (e) => {
+    e.stopPropagation()
+    const current = document.getElementById('v-image').value
+    if (current && current !== '/assets/images/placeholder-car.svg') {
+      openMainImageCrop(current)
+    }
+  })
 
   document.getElementById('file-upload-remove')?.addEventListener('click', (e) => {
     e.stopPropagation()
     document.getElementById('v-image').value = '/assets/images/placeholder-car.svg'
-    document.getElementById('file-upload-preview').style.display = 'none'
+    document.getElementById('file-upload-actions').style.display = 'none'
     document.getElementById('file-upload-text').style.display = 'block'
-    document.getElementById('file-upload-remove').style.display = 'none'
     fileInput.value = ''
   })
 

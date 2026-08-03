@@ -6,6 +6,10 @@ function imgUrl(v) {
   return v.image && v.image !== '/assets/images/placeholder-car.svg' ? v.image : (v.gallery && v.gallery[0]) || v.image
 }
 
+function formatNum(n) {
+  return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+}
+
 var SPEC_ICONS = {
   year: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
   mileage: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
@@ -36,10 +40,10 @@ function VehicleRenderer(containerId, detailPath) {
 VehicleRenderer.prototype.createCard = function(vehicle, index) {
   var badgeHtml = vehicle.badge ? '<span class="car-badge-ribbon ' + vehicle.badge + '">' + i18n.t('vehicle.' + vehicle.badge) + '</span>' : '';
   var featuredHtml = vehicle.featured ? '<span class="car-card-featured">&#9733;</span>' : '';
-  var price = '\u20AC ' + vehicle.price.toLocaleString();
+  var price = '\u20AC ' + formatNum(vehicle.price);
   var delay = (index || 0) * 0.06;
   var lang = i18n.currentLang;
-  var mileage = vehicle.mileage.toLocaleString() + ' ' + i18n.t('vehicle.km');
+  var mileage = formatNum(vehicle.mileage) + ' ' + i18n.t('vehicle.km');
   var fuelLabel = mapValue('fuel', vehicle.fuel, lang);
   var transLabel = mapValue('transmission', vehicle.transmission, lang);
   return '<div class="car-card" style="animation-delay:' + delay + 's" data-id="' + vehicle.id + '">'

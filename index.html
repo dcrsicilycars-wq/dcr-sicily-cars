@@ -105,6 +105,25 @@
   </header>
 
   <section class="hero">
+    <div class="hero-right">
+      <picture>
+        <source type="image/avif" srcset="
+          /assets/images/hero/hero-480.avif 480w,
+          /assets/images/hero/hero-640.avif 640w,
+          /assets/images/hero/hero-768.avif 768w,
+          /assets/images/hero/hero-1024.avif 1024w,
+          /assets/images/hero/hero-1280.avif 1280w,
+          /assets/images/hero/hero-1536.avif 1536w" sizes="100vw">
+        <source type="image/webp" srcset="
+          /assets/images/hero/hero-480.webp 480w,
+          /assets/images/hero/hero-640.webp 640w,
+          /assets/images/hero/hero-768.webp 768w,
+          /assets/images/hero/hero-1024.webp 1024w,
+          /assets/images/hero/hero-1280.webp 1280w,
+          /assets/images/hero/hero-1536.webp 1536w" sizes="100vw">
+        <img src="/assets/images/hero/hero-1536.jpg" alt="DCR Sicily Cars - Auto Premium" fetchpriority="high" decoding="async" width="1536" height="1024">
+      </picture>
+    </div>
     <div class="hero-left">
       <h1 class="hero-title" data-i18n="hero.title">
         <span class="hero-line">La tua prossima</span>
@@ -118,10 +137,6 @@
         <a href="pages/vehicles.html" class="btn btn-white btn-lg" data-i18n="hero.cta_primary">Esplora le Auto</a>
         <a href="pages/contact.html" class="btn btn-outline btn-lg" style="border-color:white;color:white;" data-i18n="hero.cta_secondary">Contattaci</a>
       </div>
-    </div>
-    <div class="hero-right">
-      <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,0.4) 0%,transparent 50%);z-index:1;pointer-events:none;"></div>
-      <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1600&q=85" alt="DCR Sicily Cars - Auto Premium" loading="lazy">
     </div>
   </section>
 
@@ -215,8 +230,8 @@
     </div>
   </footer>
 
-<script src="js/vehicle-data.js"></script>
-<script src="js/vehicle-renderer.js"></script>
+<script src="js/vehicle-data.js?v=2"></script>
+<script src="js/vehicle-renderer.js?v=2"></script>
 <script>
 var BASE_PATH = '';
 
@@ -367,10 +382,6 @@ ParallaxHero.prototype.onScroll = function() {
   var progress = scrollY / heroHeight;
   this.bg.style.transform = 'translateY(' + (progress * 40) + 'px) scale(' + (1 + progress * 0.05) + ')';
   this.bg.style.filter = 'brightness(' + (1 - progress * 0.15) + ')';
-  if (this.content) {
-    this.content.style.transform = 'translateY(' + (progress * 30) + 'px)';
-    this.content.style.opacity = 1 - progress;
-  }
 };
 
 function SearchFilters(containerId, onFilter) {
@@ -407,14 +418,15 @@ SearchFilters.prototype.populateFuels = function() {
   fuels.forEach(function(f) { this.fuelSelect.innerHTML += '<option value="' + f + '">' + f + '</option>'; }.bind(this));
 };
 SearchFilters.prototype.populatePrices = function() {
+  function formatNum(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
   var max = vehicleData.getMaxPrice();
   var steps = [10000, 15000, 20000, 25000, 30000, 40000, 50000, 75000, 100000];
   this.priceSelect.innerHTML = '<option value="">' + i18n.t('search.all_prices') + '</option>';
   var self = this;
   steps.forEach(function(p) {
-    if (p <= max) self.priceSelect.innerHTML += '<option value="' + p + '">\u20AC ' + p.toLocaleString() + '</option>';
+    if (p <= max) self.priceSelect.innerHTML += '<option value="' + p + '">\u20AC ' + formatNum(p) + '</option>';
   });
-  this.priceSelect.innerHTML += '<option value="' + max + '">\u20AC ' + max.toLocaleString() + '+</option>';
+  this.priceSelect.innerHTML += '<option value="' + max + '">\u20AC ' + formatNum(max) + '+</option>';
 };
 SearchFilters.prototype.updateLabels = function() {
   document.querySelectorAll('[data-filter-label]').forEach(function(el) {

@@ -556,6 +556,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .file-upload-area {
+  position: relative;
   border: 2px dashed var(--color-gray-300);
   border-radius: var(--radius-md);
   padding: 2rem;
@@ -575,10 +576,28 @@ input:focus, textarea:focus, select:focus {
   padding: 0.5rem;
 }
 
-.file-upload-area img {
+.file-upload-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.file-upload-actions img {
   max-height: 200px;
-  margin: 0 auto;
+  margin: 0;
   border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.file-upload-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.file-upload-btns .btn {
+  white-space: nowrap;
 }
 
 .form-actions {
@@ -896,8 +915,18 @@ input:focus, textarea:focus, select:focus {
     padding: 1rem;
   }
 
-  .file-upload-area img {
+  .file-upload-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .file-upload-actions img {
     max-height: 150px;
+  }
+
+  .file-upload-btns {
+    flex-direction: row;
+    justify-content: center;
   }
 
   .form-actions {
@@ -1288,6 +1317,39 @@ input:focus, textarea:focus, select:focus {
   height: 8px;
   border-radius: 50%;
   background: var(--color-accent);
+}
+
+/* ---- Crop Modal ---- */
+.modal-dialog-crop {
+  max-width: 640px;
+}
+
+.crop-container {
+  background: var(--color-gray-900);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  max-height: 60vh;
+  display: flex;
+  justify-content: center;
+}
+
+.crop-container img {
+  display: block;
+  max-width: 100%;
+  max-height: 60vh;
+}
+
+.crop-hint {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--color-gray-400);
+}
+
+.crop-container .cropper-view-box,
+.crop-container .cropper-face {
+  border-radius: 0;
 }
 
 

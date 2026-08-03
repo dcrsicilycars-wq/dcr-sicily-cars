@@ -187,38 +187,12 @@
   }
 
   /* Hero */
-  .hero {
-    flex-direction: column;
-    min-height: auto;
-  }
-
   .hero-left {
-    flex: none;
-    width: 100%;
     padding: var(--spacing-xl);
-    text-align: center;
-  }
-
-  .hero-left .hero-subtitle {
-    margin-left: auto;
-    margin-right: auto;
   }
 
   .hero-left .hero-cta {
-    justify-content: center;
     gap: var(--spacing-lg);
-  }
-
-  .hero-right {
-    flex: none;
-    width: 100%;
-    min-height: 300px;
-  }
-
-  .hero-right img {
-    position: static;
-    height: 300px;
-    object-fit: cover;
   }
 
   .hero-line {
@@ -709,11 +683,7 @@
     max-width: 1400px;
   }
   .hero-left {
-    flex: 0 0 50%;
     padding: var(--spacing-2xl) var(--spacing-4xl);
-  }
-  .hero-right {
-    min-height: 700px;
   }
   .hero-line {
     font-size: var(--text-5xl);

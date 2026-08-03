@@ -1,6 +1,9 @@
+function formatNum(n) {
+  return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+}
+
 export class SearchFilters {
-  constructor(containerId, onFilter) {
-    this.container = document.getElementById(containerId);
+  constructor(containerId, onFilter) {    this.container = document.getElementById(containerId);
     this.onFilter = onFilter;
     this.filters = { brand: '', model: '', fuel: '', price: '' };
     if (this.container) this.init();
@@ -55,10 +58,10 @@ export class SearchFilters {
     this.priceSelect.innerHTML = `<option value="">${i18n.t('search.all_prices')}</option>`;
     steps.forEach(p => {
       if (p <= max) {
-        this.priceSelect.innerHTML += `<option value="${p}">€ ${p.toLocaleString()}</option>`;
+        this.priceSelect.innerHTML += `<option value="${p}">€ ${formatNum(p)}</option>`;
       }
     });
-    this.priceSelect.innerHTML += `<option value="${max}">€ ${max.toLocaleString()}+</option>`;
+    this.priceSelect.innerHTML += `<option value="${max}">€ ${formatNum(max)}+</option>`;
   }
 
   updateLabels() {

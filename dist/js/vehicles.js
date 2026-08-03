@@ -2,6 +2,10 @@ function imgUrl(v) {
   return v.image && v.image !== '/assets/images/placeholder-car.svg' ? v.image : (v.gallery && v.gallery[0]) || v.image
 }
 
+function formatNum(n) {
+  return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+}
+
 export class VehicleRenderer {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
@@ -12,7 +16,7 @@ export class VehicleRenderer {
       ? `<span class="car-badge ${vehicle.badge}">${i18n.t('vehicle.' + vehicle.badge)}</span>`
       : '';
 
-    const price = `€ ${vehicle.price.toLocaleString()}`;
+    const price = `€ ${formatNum(vehicle.price)}`;
 
     return `
       <div class="car-card" data-id="${vehicle.id}">
@@ -28,7 +32,7 @@ export class VehicleRenderer {
               <strong>${i18n.t('vehicle.year')}:</strong> ${vehicle.year}
             </span>
             <span class="car-card-spec">
-              <strong>${i18n.t('vehicle.mileage')}:</strong> ${vehicle.mileage.toLocaleString()} ${i18n.t('vehicle.km')}
+              <strong>${i18n.t('vehicle.mileage')}:</strong> ${formatNum(vehicle.mileage)} ${i18n.t('vehicle.km')}
             </span>
             <span class="car-card-spec">
               <strong>${i18n.t('vehicle.fuel')}:</strong> ${vehicle.fuel}

@@ -2,7 +2,6 @@ export class ParallaxHero {
   constructor() {
     this.hero = document.querySelector('.hero');
     this.bg = document.querySelector('.hero-right');
-    this.content = document.querySelector('.hero-left');
     this.init();
   }
 
@@ -22,10 +21,5 @@ export class ParallaxHero {
 
     this.bg.style.transform = `translateY(${progress * 40}px) scale(${1 + progress * 0.05})`;
     this.bg.style.filter = `brightness(${1 - progress * 0.15})`;
-
-    if (this.content) {
-      this.content.style.transform = `translateY(${progress * 30}px)`;
-      this.content.style.opacity = 1 - progress;
-    }
   }
 }

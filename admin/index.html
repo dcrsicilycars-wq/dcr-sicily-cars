@@ -212,9 +212,14 @@
             <div class="form-group">
               <label for="v-image" data-i18n="admin.photo">Foto Principale</label>
               <div class="file-upload-area" id="file-upload-area">
-                <span id="file-upload-text">Trascina un'immagine qui o clicca per caricare (max 10 MB, compressa automaticamente)</span>
-                <img id="file-upload-preview" style="display:none;">
-                <button type="button" class="btn btn-sm btn-outline" id="file-upload-remove" style="display:none;position:absolute;top:8px;right:8px;">&times;</button>
+                <span id="file-upload-text">Trascina un'immagine qui o clicca per caricare (max 10 MB, ritaglia la copertina)</span>
+                <div class="file-upload-actions" id="file-upload-actions" style="display:none;">
+                  <img id="file-upload-preview">
+                  <div class="file-upload-btns">
+                    <button type="button" class="btn btn-sm btn-outline" id="file-upload-crop" data-i18n-btn="admin.re_crop">Ritaglia</button>
+                    <button type="button" class="btn btn-sm btn-outline" id="file-upload-remove" title="Rimuovi">&times;</button>
+                  </div>
+                </div>
               </div>
               <input type="file" id="v-image-input" accept="image/*" style="display:none;">
               <input type="hidden" id="v-image" value="/assets/images/placeholder-car.svg">
@@ -396,6 +401,25 @@
       <div class="modal-actions">
         <button class="btn btn-outline" id="modal-cancel" data-i18n="admin.cancel">Annulla</button>
         <button class="btn btn-danger" id="modal-confirm" data-i18n="admin.confirm_delete_btn">Elimina</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Crop Modal -->
+  <div class="modal-overlay" id="crop-modal" style="display:none;">
+    <div class="modal-dialog modal-dialog-crop">
+      <div class="modal-header">
+        <h3 data-i18n="admin.crop_title">Ritaglia Foto Copertina</h3>
+      </div>
+      <div class="modal-body">
+        <div class="crop-container">
+          <img id="crop-image" alt="">
+        </div>
+        <p class="crop-hint" data-i18n="admin.crop_hint">Trascina per spostare l'inquadratura, usa la rotella per lo zoom</p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="crop-cancel" data-i18n="admin.cancel">Annulla</button>
+        <button class="btn btn-primary" id="crop-apply" data-i18n="admin.apply_crop">Applica</button>
       </div>
     </div>
   </div>
