@@ -140,7 +140,6 @@
     "re_crop": "Crop",
     "crop_title": "Crop Cover Photo",
     "crop_hint": "Drag to reposition, use the buttons or the wheel to zoom",
-    "crop_portrait_hint": "Portrait photo detected. Use − to zoom out and include the whole car, then drag the frame.",
     "apply_crop": "Apply",
     "mark_sold": "Sold",
     "mark_reserved": "Reserved",

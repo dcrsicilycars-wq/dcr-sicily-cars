@@ -732,14 +732,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     })
   }
 
-  function resizeToDataUrl(dataUrl) {
+  function centerCropToDataUrl(dataUrl) {
     return new Promise((resolve, reject) => {
       const img = new Image()
       img.onload = () => {
         let srcW = img.naturalWidth || img.width
         let srcH = img.naturalHeight || img.height
-        let finalW = srcW
-        let finalH = srcH
+        const targetRatio = 4 / 3
+        let cropX, cropY, cropW, cropH
+        if (srcW / srcH > targetRatio) {
+          cropH = srcH
+          cropW = Math.round(srcH * targetRatio)
+          cropX = Math.round((srcW - cropW) / 2)
+          cropY = 0
+        } else {
+          cropW = srcW
+          cropH = Math.round(srcW / targetRatio)
+          cropX = 0
+          cropY = Math.round((srcH - cropH) / 2)
+        }
+        let finalW = cropW
+        let finalH = cropH
         if (finalW > MAX_IMAGE_DIM || finalH > MAX_IMAGE_DIM) {
           const ratio = Math.min(MAX_IMAGE_DIM / finalW, MAX_IMAGE_DIM / finalH)
           finalW = Math.round(finalW * ratio)
@@ -751,7 +764,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const ctx = canvas.getContext('2d')
         ctx.imageSmoothingEnabled = true
         ctx.imageSmoothingQuality = 'high'
-        ctx.drawImage(img, 0, 0, srcW, srcH, 0, 0, finalW, finalH)
+        ctx.drawImage(img, cropX, cropY, cropW, cropH, 0, 0, finalW, finalH)
         resolve(canvas.toDataURL('image/jpeg', IMAGE_QUALITY))
       }
       img.onerror = () => reject(new Error(i18n.t('admin.error_image_read')))
@@ -761,7 +774,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   async function compressImage(file) {
     const dataUrl = await loadImageFile(file)
-    return resizeToDataUrl(dataUrl)
+    return centerCropToDataUrl(dataUrl)
   }
 
   function handleImageError(msg) {
@@ -807,20 +820,15 @@ document.addEventListener('DOMContentLoaded', async () => {
       cropResolve = resolve
       const modal = document.getElementById('crop-modal')
       const img = document.getElementById('crop-image')
-      const portraitHint = document.getElementById('crop-portrait-hint')
-      if (portraitHint) portraitHint.style.display = 'none'
       destroyCropper()
       let started = false
       const initCropper = () => {
         if (started) return
         started = true
-        if (portraitHint) {
-          portraitHint.style.display = (img.naturalHeight || 0) > (img.naturalWidth || 0) ? '' : 'none'
-        }
         cropperInstance = new Cropper(img, {
           aspectRatio: 4 / 3,
           viewMode: 1,
-          autoCropArea: 1,
+          autoCropArea: 0.6,
           dragMode: 'move',
           background: true,
           guides: true,
