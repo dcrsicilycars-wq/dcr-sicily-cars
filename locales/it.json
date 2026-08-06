@@ -1,8 +1,8 @@
 {
   "site": {
-    "title": "DCR Sicily Cars s.r.l.s — Concessionaria Auto Premium",
+    "title": "DCR Sicily Cars s.r.l.s — Concessionaria Auto",
     "tagline": "Auto selezionate con passione, dalla Sicilia al mondo",
-    "description": "DCR Sicily Cars s.r.l.s — concessionaria auto premium a Catania. BMW, Mercedes, Audi, Tesla e molte altre marche. Vendita, permuta e spedizione in tutta Europa."
+    "description": "DCR Sicily Cars s.r.l.s — concessionaria auto a Catania. BMW, Mercedes, Audi, Tesla e molte altre marche. Vendita, permuta e spedizione in tutta Europa."
   },
   "nav": {
     "home": "Home",
@@ -71,14 +71,14 @@
     "intro_title": "Benvenuti da DCR Sicily Cars",
     "intro_p1": "DCR Sicily Cars nasce dall'incontro tra la passione per i motori e una visione chiara: ripensare il mondo dell'auto usata con un approccio fondato su serietà, competenza e attenzione alla persona. Non siamo semplici venditori: siamo consulenti che mettono il cliente al centro di ogni scelta.",
     "intro_p2": "Dietro ogni veicolo c'è un lavoro meticoloso di ricerca, verifica e preparazione. Crediamo che la qualità non si improvvisi: per questo ogni auto passa attraverso controlli approfonditi prima di entrare nel nostro showroom, perché ciò che offriamo deve rispecchiare gli standard che pretendiamo per noi stessi.",
-    "intro_p3": "Con sede a Catania, operiamo come punto di riferimento per chi cerca un'auto premium in tutta Italia e in Europa. La nostra crescita è fatta di relazioni durature, clienti che tornano e che ci scelgono per la trasparenza che trovano in ogni fase del percorso d'acquisto.",
+    "intro_p3": "Con sede a Catania, operiamo come punto di riferimento per chi cerca un'auto in tutta Italia e in Europa. La nostra crescita è fatta di relazioni durature, clienti che tornano e che ci scelgono per la trasparenza che trovano in ogni fase del percorso d'acquisto.",
     "stat1": "Auto Consegnate",
     "stat2": "Anni di Esperienza",
     "stat3": "Clienti Soddisfatti",
     "mission_title": "La Nostra Missione",
     "mission_text": "Selezioniamo con cura ogni veicolo, lo sottoponiamo a verifiche rigorose e lo prepariamo con la massima attenzione. Perché per noi l'acquisto di un'auto usata deve essere un'esperienza trasparente, professionale e senza sorprese.",
     "vision_title": "La Nostra Visione",
-    "vision_text": "Diventare il punto di riferimento in Sicilia per il mercato dell'auto premium usata. Vogliamo essere riconosciuti per la serietà, l'affidabilità e un servizio clienti che fa davvero la differenza — in Italia e in tutta Europa.",
+    "vision_text": "Diventare il punto di riferimento in Sicilia per il mercato dell'auto usata. Vogliamo essere riconosciuti per la serietà, l'affidabilità e un servizio clienti che fa davvero la differenza — in Italia e in tutta Europa.",
     "value_1_text": "Documentiamo ogni dettaglio con precisione: storico manutentivo, condizioni reali e certificazioni. Perché la fiducia si costruisce sulla chiarezza, non sulle promesse.",
     "value_2_text": "Scegliamo solo veicoli che superano i nostri standard qualitativi. Ogni auto è frutto di una ricerca attenta sul mercato, verificata e preparata per garantirti un prodotto eccellente.",
     "value_3_text": "Gestiamo la logistica in tutto il continente con partner certificati. Dalla documentazione doganale alla consegna porta a porta, seguiamo ogni passaggio per farti ricevere l'auto ovunque tu ti trovi.",
@@ -232,7 +232,7 @@
     "crop_preview": "Anteprima copertina"
   },
   "footer": {
-    "description": "Auto premium selezionate con passione a Catania. Trasparenza, qualità e professionalità in ogni fase dell'acquisto — con spedizioni in tutta Europa.",
+    "description": "Auto selezionate con passione a Catania. Trasparenza, qualità e professionalità in ogni fase dell'acquisto — con spedizioni in tutta Europa.",
     "quick_links": "Link Rapidi",
     "contact_info": "Contatti",
     "follow_us": "Seguici",

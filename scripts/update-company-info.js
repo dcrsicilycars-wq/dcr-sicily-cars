@@ -41,33 +41,33 @@ function updateLocale(filePath, updates) {
 }
 
 updateLocale(path.join(BASE, 'locales', 'it.json'), {
-  'site.title': 'DCR Sicily Cars s.r.l.s — Concessionaria Auto Premium',
-  'site.description': 'DCR Sicily Cars s.r.l.s — concessionaria auto premium a Catania. BMW, Mercedes, Audi, Tesla e molte altre marche. Vendita, permuta e spedizione in tutta Europa.',
+  'site.title': 'DCR Sicily Cars s.r.l.s — Concessionaria Auto',
+  'site.description': 'DCR Sicily Cars s.r.l.s — concessionaria auto a Catania. BMW, Mercedes, Audi, Tesla e molte altre marche. Vendita, permuta e spedizione in tutta Europa.',
   'footer.rights': '© 2026 DCR Sicily Cars s.r.l.s — P.IVA e C.F. 06286240871 — Tutti i diritti riservati.'
 });
 updateLocale(path.join(BASE, 'locales', 'en.json'), {
-  'site.title': 'DCR Sicily Cars s.r.l.s — Premium Car Dealership',
-  'site.description': 'DCR Sicily Cars s.r.l.s — premium car dealership in Catania. BMW, Mercedes, Audi, Tesla and more. Sales, trade-in and shipping across Europe.',
+  'site.title': 'DCR Sicily Cars s.r.l.s — Car Dealership',
+  'site.description': 'DCR Sicily Cars s.r.l.s — car dealership in Catania. BMW, Mercedes, Audi, Tesla and more. Sales, trade-in and shipping across Europe.',
   'footer.rights': '© 2026 DCR Sicily Cars s.r.l.s — VAT and Tax ID 06286240871 — All rights reserved.'
 });
 
 // --- Step 3: Define replacement pairs ---
 const replacements = [
-  { old: '"title":"DCR Sicily Cars — Concessionaria Auto Premium"', new: '"title":"DCR Sicily Cars s.r.l.s — Concessionaria Auto Premium"' },
-  { old: '"description":"Concessionaria auto premium a Catania.', new: '"description":"DCR Sicily Cars s.r.l.s — concessionaria auto premium a Catania.' },
+  { old: '"title":"DCR Sicily Cars — Concessionaria Auto"', new: '"title":"DCR Sicily Cars s.r.l.s — Concessionaria Auto"' },
+  { old: '"description":"Concessionaria auto a Catania.', new: '"description":"DCR Sicily Cars s.r.l.s — concessionaria auto a Catania.' },
   { old: '"rights":"© 2026 DCR Sicily Cars. Tutti i diritti riservati."', new: '"rights":"© 2026 DCR Sicily Cars s.r.l.s — P.IVA e C.F. 06286240871 — Tutti i diritti riservati."' },
   { old: 'Benvenuti da DCR Sicily Cars', new: 'Benvenuti da DCR Sicily Cars s.r.l.s' },
   { old: '"intro_p1":"DCR Sicily Cars nasce', new: '"intro_p1":"DCR Sicily Cars s.r.l.s nasce' },
-  { old: '"title":"DCR Sicily Cars — Premium Car Dealership"', new: '"title":"DCR Sicily Cars s.r.l.s — Premium Car Dealership"' },
-  { old: '"description":"Premium car dealership in Catania.', new: '"description":"DCR Sicily Cars s.r.l.s — premium car dealership in Catania.' },
+  { old: '"title":"DCR Sicily Cars — Car Dealership"', new: '"title":"DCR Sicily Cars s.r.l.s — Car Dealership"' },
+  { old: '"description":"Premium car dealership in Catania.', new: '"description":"DCR Sicily Cars s.r.l.s — car dealership in Catania.' },
   { old: '"rights":"© 2026 DCR Sicily Cars. All rights reserved."', new: '"rights":"© 2026 DCR Sicily Cars s.r.l.s — VAT and Tax ID 06286240871 — All rights reserved."' },
   { old: '"intro_p1":"DCR Sicily Cars was born', new: '"intro_p1":"DCR Sicily Cars s.r.l.s was born' },
   { old: 'Welcome to DCR Sicily Cars', new: 'Welcome to DCR Sicily Cars s.r.l.s' },
 ];
 
 const metaReplacements = [
-  { old: 'content="DCR Sicily Cars — Concessionaria Auto Premium"', new: 'content="DCR Sicily Cars s.r.l.s — Concessionaria Auto Premium"' },
-  { old: 'content="DCR Sicily Cars — Premium Car Dealership"', new: 'content="DCR Sicily Cars s.r.l.s — Premium Car Dealership"' },
+  { old: 'content="DCR Sicily Cars — Concessionaria Auto"', new: 'content="DCR Sicily Cars s.r.l.s — Concessionaria Auto"' },
+  { old: 'content="DCR Sicily Cars — Car Dealership"', new: 'content="DCR Sicily Cars s.r.l.s — Car Dealership"' },
   { old: 'content="DCR Sicily Cars — Chi Siamo"', new: 'content="DCR Sicily Cars s.r.l.s — Chi Siamo"' },
   { old: 'content="DCR Sicily Cars — Contatti"', new: 'content="DCR Sicily Cars s.r.l.s — Contatti"' },
   { old: 'content="DCR Sicily Cars — Veicoli"', new: 'content="DCR Sicily Cars s.r.l.s — Veicoli"' },
@@ -81,12 +81,12 @@ const metaReplacements = [
   { old: '>DCR Sicily Cars - Admin<', new: '>DCR Sicily Cars s.r.l.s - Admin<' },
   { old: '>DCR Sicily Cars - Accesso Admin<', new: '>DCR Sicily Cars s.r.l.s - Accesso Admin<' },
   { old: '>404 - DCR Sicily Cars<', new: '>404 - DCR Sicily Cars s.r.l.s<' },
-  { old: 'name="description" content="DCR Sicily Cars — Concessionaria auto premium', new: 'name="description" content="DCR Sicily Cars s.r.l.s — Concessionaria auto premium' },
-  { old: 'name="description" content="DCR Sicily Cars — Premium car dealership', new: 'name="description" content="DCR Sicily Cars s.r.l.s — Premium car dealership' },
+  { old: 'name="description" content="DCR Sicily Cars — Concessionaria auto', new: 'name="description" content="DCR Sicily Cars s.r.l.s — Concessionaria auto' },
+  { old: 'name="description" content="DCR Sicily Cars — Premium car dealership', new: 'name="description" content="DCR Sicily Cars s.r.l.s — car dealership' },
   { old: 'property="og:title" content="DCR Sicily Cars', new: 'property="og:title" content="DCR Sicily Cars s.r.l.s' },
   { old: 'name="twitter:title" content="DCR Sicily Cars', new: 'name="twitter:title" content="DCR Sicily Cars s.r.l.s' },
   { old: '"name":"DCR Sicily Cars"', new: '"name":"DCR Sicily Cars s.r.l.s"' },
-  { old: '"description":"Concessionaria auto premium a Catania.', new: '"description":"DCR Sicily Cars s.r.l.s — concessionaria auto premium a Catania.' },
+  { old: '"description":"Concessionaria auto a Catania.', new: '"description":"DCR Sicily Cars s.r.l.s — concessionaria auto a Catania.' },
   { old: 'alt="DCR Sicily Cars"', new: 'alt="DCR Sicily Cars s.r.l.s"' },
 ];
 

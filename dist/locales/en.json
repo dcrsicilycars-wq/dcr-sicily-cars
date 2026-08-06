@@ -1,8 +1,8 @@
 {
   "site": {
-    "title": "DCR Sicily Cars s.r.l.s — Premium Car Dealership",
+    "title": "DCR Sicily Cars s.r.l.s — Car Dealership",
     "tagline": "Hand-picked cars with passion, from Sicily to the world",
-    "description": "DCR Sicily Cars s.r.l.s — premium car dealership in Catania. BMW, Mercedes, Audi, Tesla and more. Sales, trade-in and shipping across Europe."
+    "description": "DCR Sicily Cars s.r.l.s — car dealership in Catania. BMW, Mercedes, Audi, Tesla and more. Sales, trade-in and shipping across Europe."
   },
   "nav": {
     "home": "Home",
@@ -71,14 +71,14 @@
     "intro_title": "Welcome to DCR Sicily Cars",
     "intro_p1": "DCR Sicily Cars was born at the crossroads of automotive passion and a clear vision: to reshape the used car world with an approach built on integrity, expertise, and genuine care for people. We are not just sellers — we are consultants who put the client at the heart of every decision.",
     "intro_p2": "Behind every vehicle lies meticulous research, inspection, and preparation. We believe quality cannot be improvised: that's why every car goes through thorough checks before entering our showroom, because what we offer must meet the standards we demand for ourselves.",
-    "intro_p3": "Based in Catania, we serve as a benchmark for anyone seeking a premium car across Italy and throughout Europe. Our growth is built on lasting relationships, returning clients who choose us time and again for the transparency they find at every step of their buying journey.",
+    "intro_p3": "Based in Catania, we serve as a benchmark for anyone seeking a car across Italy and throughout Europe. Our growth is built on lasting relationships, returning clients who choose us time and again for the transparency they find at every step of their buying journey.",
     "stat1": "Cars Delivered",
     "stat2": "Years of Experience",
     "stat3": "Happy Clients",
     "mission_title": "Our Mission",
     "mission_text": "We carefully select every vehicle, subject it to rigorous inspections, and prepare it with the utmost attention. Because for us, buying a used car should be a transparent, professional, and surprise-free experience.",
     "vision_title": "Our Vision",
-    "vision_text": "To become Sicily's benchmark for the premium used car market. We strive to be recognised for our integrity, reliability, and a customer service that truly makes a difference — across Italy and throughout Europe.",
+    "vision_text": "To become Sicily's benchmark for the used car market. We strive to be recognised for our integrity, reliability, and a customer service that truly makes a difference — across Italy and throughout Europe.",
     "value_1_text": "We document every detail with precision: service history, actual conditions, and certifications. Because trust is built on clarity, not on promises.",
     "value_2_text": "We only choose vehicles that exceed our quality standards. Every car is the result of careful market research, verified and prepared to deliver an outstanding product.",
     "value_3_text": "We handle logistics across the continent with certified partners. From customs documentation to door-to-door delivery, we manage every step to get your car wherever you are.",
@@ -139,7 +139,7 @@
     "upload_gallery": "Photo Gallery (click to add)",
     "re_crop": "Crop",
     "crop_title": "Crop Cover Photo",
-    "crop_hint": "Drag to reposition, use the wheel to zoom",
+    "crop_hint": "Drag to reposition, use the buttons or the wheel to zoom",
     "apply_crop": "Apply",
     "mark_sold": "Sold",
     "mark_reserved": "Reserved",
@@ -227,10 +227,12 @@
     "delete_vehicle": "Delete",
     "vehicles_count": "vehicles",
     "unsaved_changes": "You have unsaved changes. Are you sure you want to leave this page?",
-    "confirm_leave": "Leave without saving"
+    "confirm_leave": "Leave without saving",
+    "crop_fit": "Fit",
+    "crop_preview": "Cover preview"
   },
   "footer": {
-    "description": "Premium cars hand-selected with passion in Catania. Transparency, quality, and professionalism at every step — with shipping across Europe.",
+    "description": "Cars hand-selected with passion in Catania. Transparency, quality, and professionalism at every step — with shipping across Europe.",
     "quick_links": "Quick Links",
     "contact_info": "Contact Info",
     "follow_us": "Follow Us",
