@@ -6,3 +6,7 @@ Thumbs.db
 *.local
 .wrangler/
 dist/
+
+# Asset grafici non utilizzati (tenuti fuori dal repo)
+home sfondo.PNG
+DCR logo/

@@ -64,7 +64,7 @@ npx wrangler pages secret put ADMIN_EMAIL
 
 # Password admin
 npx wrangler pages secret put ADMIN_PASSWORD
-# → Inserisci: DcrSicily2025!
+# → Inserisci: la password che usi per accedere all'admin dashboard
 ```
 
 > **Nota:** Se in futuro cambi la password di accesso, ricordati di aggiornare anche questo segreto.
