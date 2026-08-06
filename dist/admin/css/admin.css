@@ -1322,6 +1322,8 @@ input:focus, textarea:focus, select:focus {
 /* ---- Crop Modal ---- */
 .modal-dialog-crop {
   max-width: 640px;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .crop-container {
@@ -1345,6 +1347,19 @@ input:focus, textarea:focus, select:focus {
   text-align: center;
   font-size: 0.8rem;
   color: var(--color-gray-400);
+}
+
+.crop-portrait-hint {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #f59e0b;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
 .crop-toolbar {

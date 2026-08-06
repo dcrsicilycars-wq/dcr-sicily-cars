@@ -18,9 +18,9 @@
     if (!_admin) { window.location.replace('login.html') }
     else { try { const _a = JSON.parse(_admin); if (!_a.loggedIn) { window.location.replace('login.html') } } catch(_) { window.location.replace('login.html') } }
   </script>
-  <script type="module" crossorigin src="/assets/admin-DGEGahI2.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/i18n-BwuUVHnf.js">
-  <link rel="stylesheet" crossorigin href="/assets/i18n-sBnwZAva.css">
+  <script type="module" crossorigin src="/assets/admin-D_JnqOFz.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/i18n-CFup1TB9.js">
+  <link rel="stylesheet" crossorigin href="/assets/i18n-CYZY5_rF.css">
   <link rel="stylesheet" crossorigin href="/assets/admin-cx_wrqbx.css">
   <link rel="stylesheet" href="css/admin.css">
 </head>
@@ -428,6 +428,7 @@
           <button type="button" class="btn btn-outline crop-tool" id="crop-zoom-in" title="Zoom in" aria-label="Zoom in">+</button>
         </div>
         <p class="crop-hint" data-i18n="admin.crop_hint">Trascina per spostare l'inquadratura, usa i pulsanti per lo zoom</p>
+        <p class="crop-portrait-hint" id="crop-portrait-hint" style="display:none;" data-i18n="admin.crop_portrait_hint">Foto verticale rilevata. Usa − per rimpicciolire e includere tutta l'auto, poi trascina il riquadro.</p>
         <div class="crop-preview-wrap">
           <span class="crop-preview-label" data-i18n="admin.crop_preview">Anteprima copertina</span>
           <div class="crop-preview"></div>

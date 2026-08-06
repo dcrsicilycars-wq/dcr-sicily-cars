@@ -143,6 +143,7 @@
     "re_crop": "Ritaglia",
     "crop_title": "Ritaglia Foto Copertina",
     "crop_hint": "Trascina per spostare l'inquadratura, usa i pulsanti o la rotella per lo zoom",
+    "crop_portrait_hint": "Foto verticale rilevata. Usa − per rimpicciolire e includere tutta l'auto, poi trascina il riquadro.",
     "apply_crop": "Applica",
     "mark_sold": "Venduta",
     "mark_reserved": "Prenotata",
