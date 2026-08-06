@@ -11,8 +11,8 @@
     "contact": "Contatti"
   },
   "hero": {
-    "title": "<span class=\"hero-line\">La tua prossima</span><span class=\"hero-line\"><span class=\"hero-highlight\">auto</span> ti aspetta!</span>",
-    "subtitle": "<span class=\"hero-sub-line\">Vieni a scoprire la nostra selezione di auto</span><span class=\"hero-sub-line\">usati <span class=\"hero-highlight\">garantiti e certificati</span></span>",
+    "title": "<span class=\"hero-line\">LA TUA PROSSIMA AUTO</span><span class=\"hero-line\"><span class=\"hero-highlight\">TI ASPETTA!</span></span>",
+    "subtitle": "<span class=\"hero-sub-line\">Vieni a scoprire la nostra selezione di auto,</span><span class=\"hero-sub-line\">usati <span class=\"hero-highlight\">garantiti e certificati.</span></span>",
     "cta_primary": "Esplora le Auto",
     "cta_secondary": "Contattaci",
     "scroll": "Scopri di più"

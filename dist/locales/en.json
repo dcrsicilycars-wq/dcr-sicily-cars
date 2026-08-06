@@ -11,8 +11,8 @@
     "contact": "Contact"
   },
   "hero": {
-    "title": "<span class=\"hero-line\">Your next</span><span class=\"hero-line\"><span class=\"hero-highlight\">car</span> is waiting!</span>",
-    "subtitle": "<span class=\"hero-sub-line\">Discover our selection of cars</span><span class=\"hero-sub-line\">all <span class=\"hero-highlight\">guaranteed and certified</span></span>",
+    "title": "<span class=\"hero-line\">YOUR NEXT CAR</span><span class=\"hero-line\"><span class=\"hero-highlight\">IS WAITING!</span></span>",
+    "subtitle": "<span class=\"hero-sub-line\">Discover our selection of cars,</span><span class=\"hero-sub-line\">all <span class=\"hero-highlight\">guaranteed and certified.</span></span>",
     "cta_primary": "Browse Our Collection",
     "cta_secondary": "Get in Touch",
     "scroll": "Discover More"
