@@ -142,7 +142,7 @@
     "upload_gallery": "Galleria Foto (clicca per aggiungere)",
     "re_crop": "Ritaglia",
     "crop_title": "Ritaglia Foto Copertina",
-    "crop_hint": "Trascina per spostare l'inquadratura, usa la rotella per lo zoom",
+    "crop_hint": "Trascina per spostare l'inquadratura, usa i pulsanti o la rotella per lo zoom",
     "apply_crop": "Applica",
     "mark_sold": "Venduta",
     "mark_reserved": "Prenotata",
@@ -227,7 +227,9 @@
     "loading": "Caricamento...",
     "vehicles_count": "veicoli",
     "unsaved_changes": "Hai modifiche non salvate. Sei sicuro di voler lasciare questa pagina?",
-    "confirm_leave": "Esci senza salvare"
+    "confirm_leave": "Esci senza salvare",
+    "crop_fit": "Adatta",
+    "crop_preview": "Anteprima copertina"
   },
   "footer": {
     "description": "Auto premium selezionate con passione a Catania. Trasparenza, qualità e professionalità in ogni fase dell'acquisto — con spedizioni in tutta Europa.",

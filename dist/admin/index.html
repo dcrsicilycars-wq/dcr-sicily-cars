@@ -6,7 +6,10 @@
   <meta name="theme-color" content="#0055FF">
   <meta name="robots" content="noindex, nofollow">
   <title>DCR Sicily Cars - Admin</title>
-  <link rel="icon" type="image/svg+xml" href="/assets/favicon-uNizSGTE.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16-DXlcJHXh.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32-ZBNlCYIR.png">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon-Dfj_pARn.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon-Cg6-jwNQ.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,9 +18,9 @@
     if (!_admin) { window.location.replace('login.html') }
     else { try { const _a = JSON.parse(_admin); if (!_a.loggedIn) { window.location.replace('login.html') } } catch(_) { window.location.replace('login.html') } }
   </script>
-  <script type="module" crossorigin src="/assets/admin-NqGpKEH6.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/i18n-3JU4rehQ.js">
-  <link rel="stylesheet" crossorigin href="/assets/i18n-lHKL9DaY.css">
+  <script type="module" crossorigin src="/assets/admin-DGEGahI2.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/i18n-BwuUVHnf.js">
+  <link rel="stylesheet" crossorigin href="/assets/i18n-sBnwZAva.css">
   <link rel="stylesheet" crossorigin href="/assets/admin-cx_wrqbx.css">
   <link rel="stylesheet" href="css/admin.css">
 </head>
@@ -419,7 +422,16 @@
         <div class="crop-container">
           <img id="crop-image" alt="">
         </div>
-        <p class="crop-hint" data-i18n="admin.crop_hint">Trascina per spostare l'inquadratura, usa la rotella per lo zoom</p>
+        <div class="crop-toolbar">
+          <button type="button" class="btn btn-outline crop-tool" id="crop-zoom-out" title="Zoom out" aria-label="Zoom out">−</button>
+          <button type="button" class="btn btn-outline crop-tool" id="crop-fit" data-i18n="admin.crop_fit">Adatta</button>
+          <button type="button" class="btn btn-outline crop-tool" id="crop-zoom-in" title="Zoom in" aria-label="Zoom in">+</button>
+        </div>
+        <p class="crop-hint" data-i18n="admin.crop_hint">Trascina per spostare l'inquadratura, usa i pulsanti per lo zoom</p>
+        <div class="crop-preview-wrap">
+          <span class="crop-preview-label" data-i18n="admin.crop_preview">Anteprima copertina</span>
+          <div class="crop-preview"></div>
+        </div>
       </div>
       <div class="modal-actions">
         <button class="btn btn-outline" id="crop-cancel" data-i18n="admin.cancel">Annulla</button>

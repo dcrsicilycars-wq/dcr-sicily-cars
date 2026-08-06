@@ -139,7 +139,7 @@
     "upload_gallery": "Photo Gallery (click to add)",
     "re_crop": "Crop",
     "crop_title": "Crop Cover Photo",
-    "crop_hint": "Drag to reposition, use the wheel to zoom",
+    "crop_hint": "Drag to reposition, use the buttons or the wheel to zoom",
     "apply_crop": "Apply",
     "mark_sold": "Sold",
     "mark_reserved": "Reserved",
@@ -227,7 +227,9 @@
     "delete_vehicle": "Delete",
     "vehicles_count": "vehicles",
     "unsaved_changes": "You have unsaved changes. Are you sure you want to leave this page?",
-    "confirm_leave": "Leave without saving"
+    "confirm_leave": "Leave without saving",
+    "crop_fit": "Fit",
+    "crop_preview": "Cover preview"
   },
   "footer": {
     "description": "Premium cars hand-selected with passion in Catania. Transparency, quality, and professionalism at every step — with shipping across Europe.",

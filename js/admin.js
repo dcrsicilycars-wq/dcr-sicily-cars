@@ -828,7 +828,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         cropperInstance = new Cropper(img, {
           aspectRatio: 4 / 3,
           viewMode: 1,
-          autoCropArea: 0.8,
+          autoCropArea: 0.6,
           dragMode: 'move',
           background: true,
           guides: true,
@@ -837,7 +837,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           cropBoxMovable: true,
           cropBoxResizable: true,
           toggleDragModeOnDblclick: false,
-          checkCrossOrigin: false
+          checkCrossOrigin: false,
+          preview: '.crop-preview'
         })
       }
       img.onload = initCropper
@@ -870,6 +871,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   document.getElementById('crop-apply')?.addEventListener('click', applyCrop)
+  document.getElementById('crop-zoom-in')?.addEventListener('click', () => {
+    cropperInstance?.zoom(0.1)
+  })
+  document.getElementById('crop-zoom-out')?.addEventListener('click', () => {
+    cropperInstance?.zoom(-0.1)
+  })
+  document.getElementById('crop-fit')?.addEventListener('click', () => {
+    cropperInstance?.reset()
+  })
   document.getElementById('crop-cancel')?.addEventListener('click', () => {
     const resolve = cropResolve
     closeCropModal()
