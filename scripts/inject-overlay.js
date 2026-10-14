@@ -4,7 +4,7 @@ const path = require('path')
 // ===== TOGGLE UNICO =====
 // true  -> patina nera attiva su tutte le pagine (frontend + admin)
 // false -> patina rimossa da tutte le pagine (il prossimo build la strappa via)
-const ENABLED = true
+const ENABLED = false
 // ========================
 
 const START = '<!--DCR-OVERLAY:START-->'
